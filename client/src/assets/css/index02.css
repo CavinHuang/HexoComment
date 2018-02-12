@@ -1,0 +1,141 @@
+.top-logo {
+  font-size: 30px;
+  font-weight: 600;
+}
+.bg {
+  background: #fff;
+  color: #4c4c4c;
+  text-align: center;
+}
+
+.btn {
+  border-radius: 2px;
+  padding: 7px 14px;
+}
+
+.btn-big {
+  font-size: 18px;
+  width: 200px;
+  height: 50px;
+  line-height: 36px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.btn-blue {
+  background: #42A5F5;
+}
+
+.main {
+  padding-top: 25px;
+}
+
+.content {
+  position: relative;
+}
+
+.content .middle-center {
+  /* height: 856px; */
+  /* position: absolute;
+  width: 100%;
+  top: 50%;
+  margin-top: -428px; */
+}
+
+.content .wrap-info {
+  position: relative;
+  z-index: 2;
+  filter: alpha(opacity=0);
+  /* IE */
+  -moz-opacity: 0;
+  /* è€ç‰ˆMozilla */
+  -khtml-opacity: 0;
+  /* è€ç‰ˆSafari */
+  opacity: 0;
+  transition: 0.5s all;
+  -webkit-transition: 0.5s all;
+  -moz-transition: 0.5s all;
+  top: -15px;
+}
+
+.content .wrap-info.show {
+  filter: alpha(opacity=1);
+  /* IE */
+  -moz-opacity: 1;
+  /* è€ç‰ˆMozilla */
+  -khtml-opacity: 1;
+  /* è€ç‰ˆSafari */
+  opacity: 1;
+  top: 0;
+}
+
+.content .tip-title {
+  text-align: center;
+  font-size: 40px;
+  color: #4c4c4c;
+  padding-top: 90px;
+  font-weight: normal;
+}
+
+.content .txt-info {
+  width: 711px;
+  padding-top: 35px;
+  margin: 0 auto;
+  text-align: justify;
+  font-size: 20px;
+  color: #4c4c4c;
+  line-height: 38px;
+  font-weight: 200;
+}
+
+.content .btn-blue {
+  display: block;
+  margin: 50px auto 0 auto;
+  color: #fff;
+  font-size: 16px;
+}
+
+.content .check-more {
+  display: block;
+  text-align: center;
+  z-index: 2;
+  line-height: 15px;
+  font-size: 13px;
+}
+.content .mod-tips:before {
+  background-position: 0px 0px;
+}
+.content .mod-tips:before {
+  background-size: 18px 7px;
+  background-image: url(../img/index02.png)
+}
+.index-banner-bg {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 20px;
+  max-height: 750px;
+  position: relative;
+}
+.index-banner-bg img {
+  width: 100%;
+}
+.index-banner-bg .title {
+  color: #FFF;
+  font-weight: bold;
+  font-size: 40px;
+  position: absolute;
+  top: 260px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+.index-banner-bg .subtitle {
+  color: #DEDEDE;
+  font-weight: bold;
+  font-size: 28px;
+  position: absolute;
+  top: 360px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}

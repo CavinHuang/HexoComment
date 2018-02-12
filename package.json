@@ -1,0 +1,31 @@
+{
+  "name": "HexoCommnet",
+  "version": "1.0.0",
+  "description": "主要功能： 1. 提供文章评论功能； 2. 提供文章访问量功能； 3. 提供文章点赞功能。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CavinHuang/HexoComment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CavinHuang/HexoComment/issues"
+  },
+  "homepage": "https://github.com/CavinHuang/HexoComment#readme",
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^6.0.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-plugin-vue": "^4.2.2"
+  },
+  "dependencies": {
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-promise": "^3.6.0"
+  }
+}
