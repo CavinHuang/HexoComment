@@ -8,15 +8,25 @@
     .cont-main.clearfix
       .index-tab
         .index-slide-nav
-          a.active(href='login.html') 登录
-          a(href='register.html') 注册
-          .slide-bar
+          a(href='javascript:;', :class="{active: isCurrent == 'login' ? true : false}" @click="change('login', 0)") 登录
+          a(href='javascript:;', :class="{active: isCurrent == 'register' ? true : false}" @click="change('register', '50%')") 注册
+          .slide-bar(:style="{left: lineLeft}")
       .login.form
-        .group
+        .group(v-if="isCurrent == 'login'")
           .group-ipt.email
             input#email.ipt(type='text', name='email', placeholder='邮箱地址', required='')
           .group-ipt.password
             input#password.ipt(type='password', name='password', placeholder='输入您的登录密码', required='')
+          .group-ipt.verify
+            input#verify.ipt(type='text', name='verify', placeholder='输入验证码', required='')
+            img.imgcode(src='http://zrong.me/home/index/imgcode?id=')
+        .group(v-if="isCurrent == 'register'")
+          .group-ipt.email
+            input#email.ipt(type='text', name='email', placeholder='邮箱地址', required='')
+          .group-ipt.password
+            input#reg_password.ipt(type='password', name='password', placeholder='输入您的登录密码', required='')
+          .group-ipt.password
+            input#reg_password_confirm.ipt(type='password', name='password', placeholder='请确认您的登录密码', required='')
           .group-ipt.verify
             input#verify.ipt(type='text', name='verify', placeholder='输入验证码', required='')
             img.imgcode(src='http://zrong.me/home/index/imgcode?id=')
@@ -38,6 +48,18 @@ import HomeHeader from '@/components/HomeHeader'
 import '@/assets/css/register-login.css'
 
 export default {
+  data () {
+    return {
+      isCurrent: 'login',
+      lineLeft: 0
+    }
+  },
+  methods: {
+    change (current, lineLeft) {
+      this.isCurrent = current
+      this.lineLeft = lineLeft
+    }
+  },
   mounted () {
     console.log(window.particlesJS)
     window.particlesJS('box',
