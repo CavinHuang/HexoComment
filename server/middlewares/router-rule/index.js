@@ -29,7 +29,7 @@ module.exports = function ( opts ) {
 							let extname = Path.extname( fileName );
 							if ( extname === '.js' ) {
 								let subName = Path.basename( fileName, extname );
-								content[ dirName ] = require( Path.join( subPath, fileName ) )();
+								content[ dirName ][subName] = require( Path.join( subPath, fileName ) )();
 							}
 						} )
 				} else {
@@ -40,6 +40,7 @@ module.exports = function ( opts ) {
 					}
 				}
 			} );
+			console.log(content);
 		app[ name ] = content
 	} )
 }
