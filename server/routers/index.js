@@ -13,8 +13,9 @@ module.exports = ( app ) => {
 	// 用户相关
 	router.post('/user', home.user.add)
 	router.delete('/user', home.user.delete)
-	router.put('/user', home.user.update)
+	router.put('/user/:id', home.user.update)
 	router.get('/user/:id', home.user.fetch)
+	router.get('/user', home.user.fetch)
 
 	app.use( router.routes() )
 		.use( router.allowedMethods() )

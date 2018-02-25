@@ -19,6 +19,7 @@ var UserSchema = new Schema({
     type: Boolean,
     default: false
   },
+	id: String,
   accessToken: String,
   nickname: String,
   email: String,

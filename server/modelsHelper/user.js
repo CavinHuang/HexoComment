@@ -8,18 +8,20 @@ var User = mongoose.model('User')
  * @param  {[type]} options.phoneNumber [description]
  * @return {[type]}                     [description]
  */
-exports.findByPhoneNumber = async ({phoneNumber}) => {
-	var query = User.find({phoneNumber})
-	var res = null
-	await query.exec(function(err, user) {
-		if(err) {
-			res = false
-		}else {
-			res = user
-		}
+exports.findByWhere = async (where, field) => {
+	var query = User.find(where, field)
+	return new Promise((resolve, reject) => {
+		query.exec((err, user) => {
+			if(err) {
+				reject(err)
+			}else {
+				resolve(user)
+			}
+		})
 	})
+
 	// console.log('res====>' + res)
-	return res;
+	// return res;
 }
 
 /**
@@ -29,14 +31,15 @@ exports.findByPhoneNumber = async ({phoneNumber}) => {
 exports.findAllUsers = async () => {
 	var query = User.find({});
 	var res = []
-	await query.exec(function(err, users) {
-		if(err) {
-			res = []
-		}else {
-			res = users;
-		}
+	return new Promise((resolve, reject) => {
+		query.exec(function(err, users) {
+			if(err) {
+				reject(err)
+			}else {
+				resolve(users)
+			}
+		})
 	})
-	return res
 }
 
 /**
@@ -50,22 +53,34 @@ exports.addUser = async (user) => {
 }
 
 /**
+ * 更新用户
+ * @param  {Object}  condition [条件]
+ * @param  {[type]}  data      [更新的数据]
+ * @return {Promise}           [description]
+ */
+exports.updateUser = async (condition, data) => {
+	return new Promise((resolve, reject) => {
+		User.update(condition, data, (err) => {
+			if(err) reject(err)
+			else resolve(true)
+		})
+	})
+}
+/**
  * 删除用户
  * @param  {[type]} options.phoneNumber [description]
  * @return {[type]}                     [description]
  */
-exports.deleteUser = async ({phoneNumber}) => {
+exports.deleteUser = async (where) => {
 	var flag = false
 	console.log('flag==========>'+flag)
-	await User.remove({phoneNumber}, function(err) {
-		if(err) {
-			flag = false
-			// return false
-		}else{
-			flag = true
-		}
-
+	return new Promise((resolve, reject) => {
+		User.remove(where, function(err) {
+			if(err) {
+				reject(err)
+			}else{
+				resolve(true)
+			}
+		})
 	})
-	console.log('flag=====await=====>'+flag)
-	return flag
 }
