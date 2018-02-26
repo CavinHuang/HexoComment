@@ -7,7 +7,7 @@ const uuid = require('uuid');
 const User = mongoose.model('User');
 const UserHelper = require('../../modelsHelper/user');
 const util = require('../../utils');
-const md5 = require('md5');
+const bcrypt = require('bcrypt');
 const Hashids = require('hashids');
 const hashids = new Hashids('sujinw@qq.com', 8);
 class user {
@@ -39,7 +39,7 @@ class user {
       ctx.body = util.ajax(4000, '电话号码已经存在！')
       return;
     }
-
+    password = await bcrypt.hash(xss(password), 5)
     let userData = new User({
       id: hashids.encode(xss(phone)),
       nickname: nickname ? xss(nickname) : '',
@@ -48,7 +48,7 @@ class user {
       accessToken: uuid.v4(),
       verified: true,
       email: xss(email),
-      password: md5('sujinw'+md5(xss(password)))
+      password: password
     })
 
     let result = await UserHelper.addUser(userData)

@@ -1,12 +1,16 @@
 const path = require( 'path' );
 const bodyParser = require( 'koa-bodyparser' )
 const nunjucks = require( 'koa-nunjucks-2' );
-
-
+const cors = require('koa-cors');
+const helmet = require('koa-helmet');
+const jwt = require('koa-jwt');
 const routerRule = require( './router-rule' );
 const logger = require( './logger' )
 const miSend = require( './send' )
+import {secret} from '../config'
+import errorHandel from './error'
 module.exports = ( app ) => {
+	app.use(errorHandel)
 	routerRule( {
 		app,
 		rules: [
@@ -28,6 +32,15 @@ module.exports = ( app ) => {
 			trimBlocks: true
 		}
 	} ) );
+
+	app.use(jwt({
+    secret,
+  }).unless({
+    path: [/\/gettoken/],
+  }))
+
+	app.use(helmet())
+  app.use(cors())
 
 	app.use( bodyParser() )
 	app.use( miSend() )

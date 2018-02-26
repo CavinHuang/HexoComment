@@ -32,7 +32,7 @@
  })
 
  // Defines a pre hook for the document.
- UserSchema.pre('save', function(next) {
+ WebsitesTypeSchema.pre('save', function(next) {
    if (this.isNew) {
      let websiteType = this
      // 自增
@@ -41,9 +41,9 @@
         return next(err);
       }
       websiteType.id = res;
-     this.meta.createAt = this.meta.updateAt = Date.now()
-   }
-   else {
+      websiteType.meta.createAt = this.meta.updateAt = Date.now()
+    })
+   } else {
      this.meta.updateAt = Date.now()
    }
    next()
@@ -56,7 +56,7 @@
   * @type {[type]}
   */
  // 参数User 数据库中的集合名称, 不存在会创建.
- var WebsitesType = mongoose.model('User', WebsitesTypeSchema)
+ var WebsitesType = mongoose.model('WebsitesType', WebsitesTypeSchema)
 
  module.exports = WebsitesType
 

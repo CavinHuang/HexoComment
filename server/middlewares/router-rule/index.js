@@ -40,7 +40,6 @@ module.exports = function ( opts ) {
 					}
 				}
 			} );
-			console.log(content);
 		app[ name ] = content
 	} )
 }

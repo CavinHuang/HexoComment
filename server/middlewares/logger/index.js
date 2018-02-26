@@ -6,7 +6,7 @@ const koaLogger = require( 'koa-logger' )
 module.exports = function ( app ) {
 
 	// 重写koa默认的 app.context.onerror 函数，重写后功能稍微强大点
-	onerror( app );
+	// onerror( app );
 
 	// 向全局注册logger方法
 	Logger();

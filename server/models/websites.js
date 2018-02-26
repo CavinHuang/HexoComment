@@ -19,7 +19,7 @@ var WebsitesSchema = new Schema({
     unique: true
   },
   userId: String,
-  websiteType: String,
+  websiteType: Number,
   meta: {
     createAt: {
       type: Date,
@@ -33,7 +33,7 @@ var WebsitesSchema = new Schema({
 })
 
 // Defines a pre hook for the document.
-UserSchema.pre('save', function(next) {
+WebsitesSchema.pre('save', function(next) {
   if (this.isNew) {
     this.meta.createAt = this.meta.updateAt = Date.now()
   }
@@ -50,7 +50,7 @@ UserSchema.pre('save', function(next) {
  * @type {[type]}
  */
 // 参数User 数据库中的集合名称, 不存在会创建.
-var Websites = mongoose.model('User', WebsitesSchema)
+var Websites = mongoose.model('Websites', WebsitesSchema)
 
 module.exports = Websites
 

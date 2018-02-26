@@ -5,17 +5,22 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=development nodemon app.js"
+    "start": "cross-env NODE_ENV=development nodemon app.js --exec babel-node"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "bluebird": "^3.5.1",
     "cross-env": "^5.1.3",
     "egg-logger": "^1.6.1",
     "hashids": "^1.1.4",
+    "jsonwebtoken": "^8.1.1",
     "koa": "^2.4.1",
     "koa-bodyparser": "^4.2.0",
+    "koa-cors": "^0.0.16",
+    "koa-helmet": "^3.3.0",
+    "koa-jwt": "^3.3.0",
     "koa-logger": "^3.1.0",
     "koa-nunjucks-2": "^3.0.2",
     "koa-onerror": "^4.0.0",
@@ -27,5 +32,15 @@
     "utility": "^1.13.1",
     "uuid": "^3.2.1",
     "xss": "^0.3.7"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-syntax-async-functions": "^6.5.0",
+    "babel-plugin-transform-async-to-generator": "^6.5.0",
+    "babel-polyfill": "^6.5.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-register": "^6.3.13"
   }
 }
