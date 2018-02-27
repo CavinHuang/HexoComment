@@ -28,10 +28,6 @@ const router = new Router({
   ]
 })
 
-// 路由拦截
-// 差点忘了说明,不是所有版块都需要鉴权的
-// 所以需要鉴权,我都会在路由meta添加添加一个字段requireLogin,设置为true的时候
-// 这货就必须走鉴权,像登录页这些不要,是可以直接访问的!!!
 router.beforeEach((to, from, next) => {
   if (to.matched.some(res => res.meta.requireLogin)) {
     // 判断是否需要登录权限
