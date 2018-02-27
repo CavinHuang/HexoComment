@@ -16,7 +16,8 @@ module.exports = ( app ) => {
 	router.get('/user', home.user.fetch)
 
 	// auth token
-	router.post('/gettoken', home.auth.getToken)
+	router.post('/login', home.auth.login)
+	router.post('/register', home.auth.register)
 	//router.get('/refreshToken', home.auth.refreshToken)
 
 	app.use( router.routes() )

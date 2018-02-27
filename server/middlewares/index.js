@@ -36,7 +36,7 @@ module.exports = ( app ) => {
 	app.use(jwt({
     secret,
   }).unless({
-    path: [/\/gettoken/],
+    path: [/\/login/, /register/],
   }))
 
 	app.use(helmet())
