@@ -14,24 +14,26 @@
       .login.form
         .group(v-if="isCurrent == 'login'")
           .group-ipt.email
-            input#email.ipt(type='text', name='email', placeholder='邮箱地址', required='')
+            input#email.ipt(type='text', v-model="loginData.username", name='email', placeholder='邮箱地址/电话号码', required='')
           .group-ipt.password
-            input#password.ipt(type='password', name='password', placeholder='输入您的登录密码', required='')
-          .group-ipt.verify
-            input#verify.ipt(type='text', name='verify', placeholder='输入验证码', required='')
-            img.imgcode(src='http://zrong.me/home/index/imgcode?id=')
+            input#password.ipt(type='password', v-model="loginData.password", name='password', placeholder='输入您的登录密码', required='')
+          //- .group-ipt.verify
+          //-   input#verify.ipt(type='text', name='verify', placeholder='输入验证码', required='')
+          //-   img.imgcode(src='http://zrong.me/home/index/imgcode?id=')
         .group(v-if="isCurrent == 'register'")
           .group-ipt.email
-            input#email.ipt(type='text', name='email', placeholder='邮箱地址', required='')
+            input#email.ipt(type='text', v-model="registerData.email", name='email', placeholder='邮箱地址', required='')
+          .group-ipt.email
+            input#phone.ipt(type='text', v-model="registerData.phone", name='phone', placeholder='电话号码', required='')
           .group-ipt.password
-            input#reg_password.ipt(type='password', name='password', placeholder='输入您的登录密码', required='')
+            input#reg_password.ipt(type='password', v-model="registerData.password", name='password', placeholder='输入您的登录密码', required='')
           .group-ipt.password
-            input#reg_password_confirm.ipt(type='password', name='password', placeholder='请确认您的登录密码', required='')
-          .group-ipt.verify
-            input#verify.ipt(type='text', name='verify', placeholder='输入验证码', required='')
-            img.imgcode(src='http://zrong.me/home/index/imgcode?id=')
+            input#reg_password_confirm.ipt(type='password', v-model="registerData.password_confirm", name='password_confirm', placeholder='请确认您的登录密码', required='')
+          //- .group-ipt.verify
+          //-   input#verify.ipt(type='text', name='verify', placeholder='输入验证码', required='')
+          //-   img.imgcode(src='http://zrong.me/home/index/imgcode?id=')
       .button
-        button#button.login-btn.register-btn(type='submit') 登录
+        button#button.login-btn.register-btn(type='submit', @click="submit()") 登录
       .remember.clearfix
         label.remember-me
           span.icon
@@ -46,22 +48,59 @@
 <script>
 import HomeHeader from '@/components/HomeHeader'
 import '@/assets/css/register-login.css'
-
+import {Message} from 'element-ui'
 export default {
   data () {
     return {
       isCurrent: 'login',
-      lineLeft: 0
+      lineLeft: 0,
+      loginData: {
+        username: '',
+        password: ''
+      },
+      registerData: {
+        email: '',
+        phone: '',
+        password: '',
+        password_confirm: ''
+      }
     }
   },
   methods: {
     change (current, lineLeft) {
       this.isCurrent = current
       this.lineLeft = lineLeft
+    },
+    submit () {
+      if (this.isCurrent === 'login') {
+        console.log(111111111)
+        if (this.loginData.username === '') {
+          Message({
+            showClose: true,
+            message: '用户名不能为空！',
+            type: 'error'
+          })
+          return false
+        } else if (this.loginData.password === '') {
+          Message({
+            showClose: true,
+            message: '密码不能为空！',
+            type: 'error'
+          })
+          return false
+        } else {
+          this.$post('/api/login', this.loginData).then(res => {
+            console.log(res)
+          }).catch(e => {
+            console.log(e)
+          })
+        }
+      } else {
+
+      }
     }
   },
   mounted () {
-    console.log(window.particlesJS)
     window.particlesJS('box',
       {
         'particles': {

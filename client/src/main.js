@@ -7,7 +7,6 @@ import store from './store'
 import '@/assets/css/common.css'
 import '@/errorLog' // error log
 import {post, fetch, patch, put} from './utils/http'
-
 Vue.config.productionTip = true
 
 // 定义全局变量
