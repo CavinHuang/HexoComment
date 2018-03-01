@@ -28,11 +28,15 @@ var UserSchema = new Schema({
   meta: {
     createAt: {
       type: Date,
-      dafault: Date.now()
+      default: Date.now()
     },
+		tokenAt: {
+			type: Date,
+			default: Date.now()
+		},
     updateAt: {
       type: Date,
-      dafault: Date.now()
+      default: Date.now()
     }
   }
 })

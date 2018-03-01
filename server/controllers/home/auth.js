@@ -38,12 +38,13 @@ class auth {
     // 匹配密码是否相等
     if (await bcrypt.compare(password, user[ 0 ].password)) {
       let expireTime = Math.floor(Date.now() / 1000) + (60 * 60)
+      let userInfo = user[0]
+
       let token = jsonwebtoken.sign({
-        data: user,
+        data: userInfo,
         // 设置 token 过期时间
         exp: expireTime // 60 seconds * 60 minutes = 1 hour
       }, secret)
-      let userInfo = user[0]
       userInfo['lifeTime'] = expireTime
       ctx.status = 200
       ctx.body = ajax(2000, '登录成功', {

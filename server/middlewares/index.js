@@ -9,6 +9,7 @@ const logger = require( './logger' )
 const miSend = require( './send' )
 import {secret} from '../config'
 import errorHandel from './error'
+import checkToken from './check-token'
 module.exports = ( app ) => {
 	app.use(errorHandel)
 	routerRule( {
@@ -24,6 +25,7 @@ module.exports = ( app ) => {
       // }
     ]
 	} )
+	app.use(checkToken)
 
 	app.use( nunjucks( {
 		ext: 'html',
@@ -41,7 +43,6 @@ module.exports = ( app ) => {
 
 	app.use(helmet())
   app.use(cors())
-
 	app.use( bodyParser() )
 	app.use( miSend() )
 	logger( app )
