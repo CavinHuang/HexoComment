@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
-import { ajaxReturn } from '../util'
+import { ajax } from '../utils'
 import config from '../config'
 import jwtDecode from 'jwt-decode'
 
-import { fetchUser, updateUser } from '../models/users'
+import { fetchUser, updateUser } from '../../modelsHelper/user'
 
 // 检查token是否过期
 module.exports = async (ctx, next) => {
