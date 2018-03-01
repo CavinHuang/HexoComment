@@ -110,7 +110,49 @@ export default {
           })
         }
       } else {
-
+        // 注册
+        if (this.loginData.username === '') {
+          Message({
+            showClose: true,
+            message: '用户名不能为空！',
+            type: 'error'
+          })
+          return false
+        } else if (this.loginData.password === '') {
+          Message({
+            showClose: true,
+            message: '密码不能为空！',
+            type: 'error'
+          })
+          return false
+        } else if (this.loginData.email === '') {
+          Message({
+            showClose: true,
+            message: '邮箱不能为空！',
+            type: 'error'
+          })
+          return false
+        } else if (this.loginData.password !== this.loginData.password_confirm) {
+          Message({
+            showClose: true,
+            message: '两次密码不一致！',
+            type: 'error'
+          })
+          return false
+        } else {
+          this.$post('/api/register', this.registerData).then(res => {
+            if (res.code === 2000) {
+              Message({
+                showClose: true,
+                message: '注册成功!',
+                type: 'success'
+              })
+              
+            }
+          }).catch(e => {
+            console.log(e)
+          })
+        }
       }
     }
   },
