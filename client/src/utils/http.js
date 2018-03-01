@@ -11,7 +11,7 @@ const Axios = axios.create({
   responseType: 'json',
   withCredentials: true, // 是否允许带cookie这些
   headers: {
-    'Content-Type': 'application/x-www-form-urlencodedcharset=utf-8'
+    'Content-Type': 'application/x-www-form-urlencoded'
   }
 })
 
@@ -52,17 +52,15 @@ Axios.interceptors.request.use(
 Axios.interceptors.response.use(
   res => {
     // 对响应数据做些事
-    if (res.data && !res.data.success) {
-      Message({
-        //  饿了么的消息弹窗组件,类似toast
-        showClose: true,
-        message: res.data.error.message.message
-          ? res.data.error.message.message
-          : res.data.error.message,
-        type: 'error'
-      })
-      return Promise.reject(res.data.error.message)
+    if (res.data && res.data.code !== 2000) {
+      return Promise.reject(res.data.msg)
     }
+    Message({
+      //  饿了么的消息弹窗组件,类似toast
+      showClose: true,
+      message: res.data.msg,
+      type: res.data.code !== 2000 ? 'error' : 'success'
+    })
     return res
   },
   error => {

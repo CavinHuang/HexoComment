@@ -7,8 +7,9 @@ import store from './store'
 import '@/assets/css/common.css'
 import '@/errorLog' // error log
 import {post, fetch, patch, put} from './utils/http'
-Vue.config.productionTip = true
+import 'element-ui/lib/theme-chalk/index.css'
 
+Vue.config.productionTip = true
 // 定义全局变量
 Vue.prototype.$post = post
 Vue.prototype.$fetch = fetch

@@ -73,7 +73,7 @@ export default {
     },
     submit () {
       if (this.isCurrent === 'login') {
-        console.log(111111111)
+        // console.log(111111111)
         if (this.loginData.username === '') {
           Message({
             showClose: true,
@@ -91,6 +91,20 @@ export default {
         } else {
           this.$post('/api/login', this.loginData).then(res => {
             console.log(res)
+            if (res.code === 2000) {
+              let userInfo = res.data.user
+              userInfo['lifeTime'] = res.data.lifeTime
+              localStorage.setItem('loginUserBaseInfo', JSON.stringify(userInfo))
+              this.$store.dispatch('setUserInfo', userInfo)
+              setTimeout(() => {
+                this.$router.push({
+                  path: '/usercenter',
+                  query: {
+                    id: userInfo.id
+                  }
+                })
+              }, 1000)
+            }
           }).catch(e => {
             console.log(e)
           })
