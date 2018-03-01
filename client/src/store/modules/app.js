@@ -1,5 +1,6 @@
 const app = {
   state: {
+    errLog: []
   },
   mutations: {},
   actions: {}

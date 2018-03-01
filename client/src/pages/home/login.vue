@@ -111,28 +111,28 @@ export default {
         }
       } else {
         // 注册
-        if (this.loginData.username === '') {
+        if (this.registerData.username === '') {
           Message({
             showClose: true,
             message: '用户名不能为空！',
             type: 'error'
           })
           return false
-        } else if (this.loginData.password === '') {
+        } else if (this.registerData.password === '') {
           Message({
             showClose: true,
             message: '密码不能为空！',
             type: 'error'
           })
           return false
-        } else if (this.loginData.email === '') {
+        } else if (this.registerData.email === '') {
           Message({
             showClose: true,
             message: '邮箱不能为空！',
             type: 'error'
           })
           return false
-        } else if (this.loginData.password !== this.loginData.password_confirm) {
+        } else if (this.registerData.password !== this.registerData.password_confirm) {
           Message({
             showClose: true,
             message: '两次密码不一致！',
@@ -147,7 +147,6 @@ export default {
                 message: '注册成功!',
                 type: 'success'
               })
-              
             }
           }).catch(e => {
             console.log(e)
