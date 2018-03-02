@@ -11,6 +11,12 @@ class websitesType {
   constructor () {
 
   }
+  /**
+   * add website type
+   * @param  {[type]}   ctx  [description]
+   * @param  {Function} next [description]
+   * @return {Promise}       [description]
+   */
   async add (ctx, next) {
     ctx.checkBody('name').notEmpty('名字不能为空')
 
@@ -39,7 +45,15 @@ class websitesType {
     }
   }
 
-  update (ctx, next) {}
+  /**
+   * update website type
+   * @param  {[type]}   ctx  [description]
+   * @param  {Function} next [description]
+   * @return {[type]}        [description]
+   */
+  update (ctx, next) {
+    let data = ctx.request.body
+  }
 
   fetch (ctx, next) {}
 
