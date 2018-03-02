@@ -1,9 +1,12 @@
 /**
  * 验证函数
  */
-exports.notEmpty = (field) => {
-  if(!field) return true;
 
-  if(file){}
-
+exports.exportError = (error) => {
+  let err = error[0]
+  let msg = ''
+  for (var k in err) {
+    msg = err[k]
+  }
+  return msg
 }

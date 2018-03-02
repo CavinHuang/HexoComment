@@ -7,6 +7,7 @@ const jwt = require('koa-jwt')
 const routerRule = require('./router-rule')
 const logger = require('./logger')
 const miSend = require('./send')
+const koaValidate = require('koa-validate')
 import {secret} from '../config'
 import errorHandel from './error'
 module.exports = (app) => {
@@ -44,5 +45,6 @@ module.exports = (app) => {
   app.use(bodyParser())
   app.use(miSend())
   logger(app)
+  koaValidate(app)
   app.use(require('./check-token'))
 }

@@ -1,6 +1,6 @@
 'use strict'
 
-var mongoose =  require('mongoose')
+var mongoose = require('mongoose')
 var User = mongoose.model('User')
 
 /**
@@ -9,19 +9,16 @@ var User = mongoose.model('User')
  * @return {[type]}                     [description]
  */
 exports.findByWhere = async (where, field) => {
-	var query = User.find(where, field)
-	return new Promise((resolve, reject) => {
-		query.exec((err, user) => {
-			if(err) {
-				reject(err)
-			}else {
-				resolve(user)
-			}
-		})
-	})
-
-	// console.log('res====>' + res)
-	// return res;
+  var query = User.find(where, field)
+  return new Promise((resolve, reject) => {
+    query.exec((err, user) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(user)
+      }
+    })
+  })
 }
 
 /**
@@ -29,17 +26,17 @@ exports.findByWhere = async (where, field) => {
  * @return {[type]} [description]
  */
 exports.findAllUsers = async () => {
-	var query = User.find({});
-	var res = []
-	return new Promise((resolve, reject) => {
-		query.exec(function(err, users) {
-			if(err) {
-				reject(err)
-			}else {
-				resolve(users)
-			}
-		})
-	})
+  var query = User.find({})
+  var res = []
+  return new Promise((resolve, reject) => {
+    query.exec(function (err, users) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(users)
+      }
+    })
+  })
 }
 
 /**
@@ -48,8 +45,8 @@ exports.findAllUsers = async () => {
  * @return {[type]}      [description]
  */
 exports.addUser = async (user) => {
-	user = await user.save()
-	return user
+  user = await user.save()
+  return user
 }
 
 /**
@@ -59,12 +56,12 @@ exports.addUser = async (user) => {
  * @return {Promise}           [description]
  */
 exports.updateUser = async (condition, data) => {
-	return new Promise((resolve, reject) => {
-		User.update(condition, data, (err) => {
-			if(err) reject(err)
-			else resolve(true)
-		})
-	})
+  return new Promise((resolve, reject) => {
+    User.update(condition, data, (err) => {
+      if (err) reject(err)
+      else resolve(true)
+    })
+  })
 }
 /**
  * 删除用户
@@ -72,15 +69,15 @@ exports.updateUser = async (condition, data) => {
  * @return {[type]}                     [description]
  */
 exports.deleteUser = async (where) => {
-	var flag = false
-	console.log('flag==========>'+flag)
-	return new Promise((resolve, reject) => {
-		User.remove(where, function(err) {
-			if(err) {
-				reject(err)
-			}else{
-				resolve(true)
-			}
-		})
-	})
+  var flag = false
+  console.log('flag==========>' + flag)
+  return new Promise((resolve, reject) => {
+    User.remove(where, function (err) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(true)
+      }
+    })
+  })
 }

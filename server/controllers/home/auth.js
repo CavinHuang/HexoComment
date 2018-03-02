@@ -45,9 +45,9 @@ class auth {
         meta: meta
       })
       let token = jsonwebtoken.sign({
-        data: userInfo,
+        data: userInfo
         // 设置 token 过期时间
-        exp: expireTime // 60 seconds * 60 minutes = 1 hour
+        // exp: expireTime // 60 seconds * 60 minutes = 1 hour
       }, secret)
       userInfo['lifeTime'] = expireTime
       ctx.status = 200
