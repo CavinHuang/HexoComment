@@ -30,6 +30,12 @@ module.exports = (app) => {
   router.put('/website/:id', home.websites.update)
   router.delete('/website/:id', home.websites.delete)
 
+  // websites type
+  router.get('/website_type/:id', home.websitesType.fetch)
+  router.post('/website_type', home.websitesType.add)
+  router.put('/website_type/:id', home.websitesType.update)
+  router.delete('/website_type/:id', home.websitesType.delete)
+
   app.use(router.routes())
     .use(router.allowedMethods())
 }
