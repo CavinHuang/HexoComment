@@ -2,7 +2,7 @@
  * 认证
  */
 // const UserHelper = require('../../modelsHelper/user');
-import { findByWhere, addUser } from '../../modelsHelper/user'
+import { findByWhere, addUser, updateUser } from '../../modelsHelper/user'
 import bcrypt from 'bcrypt'
 import jsonwebtoken from 'jsonwebtoken'
 import { ajax } from '../../utils'
@@ -39,7 +39,11 @@ class auth {
     if (await bcrypt.compare(password, user[ 0 ].password)) {
       let expireTime = Math.floor(Date.now() / 1000) + (60 * 60)
       let userInfo = user[0]
-
+      let meta = userInfo.meta
+      meta['tokenAt'] = Date.now()
+      await updateUser({phoneNumber: username}, {
+        meta: meta
+      })
       let token = jsonwebtoken.sign({
         data: userInfo,
         // 设置 token 过期时间
@@ -76,10 +80,7 @@ class auth {
       ctx.body = ajax(4000, '两次密码不一致')
       return
     }
-
     let userRes = await findByWhere({ phoneNumber: xss(phone) })
-
-    console.log(userRes)
 
     if (userRes && userRes.length > 0) {
       ctx.body = ajax(4000, '电话号码已经存在！')

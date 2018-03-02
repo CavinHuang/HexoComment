@@ -144,9 +144,13 @@ export default {
             if (res.code === 2000) {
               Message({
                 showClose: true,
-                message: '注册成功!',
+                message: '注册成功,请登录!',
                 type: 'success'
               })
+              setTimeout(() => {
+                // window.location.reload()
+                this.isCurrent = 'login'
+              }, 500)
             }
           }).catch(e => {
             console.log(e)
