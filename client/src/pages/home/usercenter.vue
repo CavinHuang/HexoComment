@@ -12,10 +12,10 @@ div
         .xm3
           .panel.border-back
             .panel-body.text-center
-              img.radius-circle(src='@/assets/images/face.jpg', width='120')
+              img.radius-circle(:src='getUser.avatar', width='120')
               br
-              |  admin
-            .panel-foot.bg-back.border-back 您好，admin，这是您第100次登录，上次登录为2014-10-1。
+              |  {{getUser.nickname}}
+            .panel-foot.bg-back.border-back 您好，{{getUser.nickname}}，这是您第100次登录，上次登录为2014-10-1。
           br
           .panel
             .panel-head
@@ -93,7 +93,16 @@ div
 
 <script>
 import UHeader from '@/components/UserCenterHeader'
+import {mapGetters} from 'vuex'
 export default {
+  methods: {
+    fetchUser () {
+
+    }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
+  },
   components: {
     UHeader
   }
