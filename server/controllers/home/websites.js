@@ -35,7 +35,6 @@ class websites {
     let websites = new Websites({
 
     })
-    console.log(websiteRes)
   }
 
   /**

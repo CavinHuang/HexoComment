@@ -7,6 +7,7 @@ import {exportError} from '../../utils/validate'
 import {ajax} from '../../utils'
 import modelHelper from '../../modelsHelper/modelHelper'
 const helper = new modelHelper(WebsitesType)
+
 class websitesType {
   constructor () {
 
@@ -51,13 +52,49 @@ class websitesType {
    * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  update (ctx, next) {
+  async update (ctx, next) {
     let data = ctx.request.body
+    let where = ctx.params
+
+    let res = await helper.update(where, data)
+
+    if (res) ctx.body = ajax(2000, '更新成功')
+    else ctx.body = ajax(4000, '更新失败')
   }
 
-  fetch (ctx, next) {}
+  /**
+   * fetch website type
+   * @param  {[type]}   ctx  [description]
+   * @param  {Function} next [description]
+   * @return {[type]}        [description]
+   */
+  async fetch (ctx, next) {
+    let where = ctx.params
+    let isOne = false
 
-  delete (ctx, next) {}
+    if (where) isOne = true
+
+    let res = await helper.findByWhere(where, null, isOne)
+
+    if (res) ctx.body = ajax(2000, '获取成功')
+    else ctx.body = ajax(4000, '获取失败')
+  }
+
+  /**
+   * delete website type
+   * @param  {[type]}   ctx  [description]
+   * @param  {Function} next [description]
+   * @return {[type]}        [description]
+   */
+  async delete (ctx, next) {
+    let where = ctx.params
+    if (!where) ctx.body = ajax(4000, '缺少条件')
+
+    let res = await helper.delete(where)
+
+    if (res) ctx.body = ajax(2000, '删除成功')
+    else ctx.body = ajax(4000, '删除失败')
+  }
 }
 
 module.exports = () => {
