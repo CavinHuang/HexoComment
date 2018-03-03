@@ -1,7 +1,7 @@
 'use strict'
 
 var mongoose = require('mongoose')
-var Schema = mongoose.Schema;
+var Schema = mongoose.Schema
 
 /**
  * 定义一个模式(相当于传统意义的表结构)
@@ -11,8 +11,11 @@ var Schema = mongoose.Schema;
  * @type {mongoose}
  */
 var WebsitesSchema = new Schema({
-	title: String,
-	id: String,
+  title: String,
+  id: {
+    type: Number,
+    default: 0
+  },
   description: String,
   siteUrl: {
     type: String,
@@ -33,16 +36,23 @@ var WebsitesSchema = new Schema({
 })
 
 // Defines a pre hook for the document.
-WebsitesSchema.pre('save', function(next) {
+WebsitesSchema.pre('save', function (next) {
   if (this.isNew) {
-    this.meta.createAt = this.meta.updateAt = Date.now()
-  }
-  else {
+    let website = this
+    // 自增
+    return Counter.incrementCounter('websites', function (err, res) {
+      if (err) {
+        return next(err)
+      }
+      website.id = res
+      website.meta.createAt = website.meta.updateAt = Date.now()
+      next()
+    })
+  } else {
     this.meta.updateAt = Date.now()
   }
   next()
 })
-
 
 /**
  * 定义模型User

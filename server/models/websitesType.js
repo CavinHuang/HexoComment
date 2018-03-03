@@ -15,7 +15,7 @@ var Counter = mongoose.model('Counter')
   * @type {mongoose}
   */
 var WebsitesTypeSchema = new Schema({
- 	 id: {type: Number, default: 0},
+ 	id: {type: Number, default: 0},
   name: String,
   description: String,
   meta: {
