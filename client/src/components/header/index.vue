@@ -4,8 +4,8 @@
       class="em-header"
       :class="{'em-header--fixed': isFixed}"
       v-show="pageAnimated">
-      <Affix @on-change="changeFixed">
-        <div class="em-header__content">
+      <Affix @on-change="changeFixed" style="height: 100%">
+        <div class="em-header__content" style="height: 100%">
           <transition name="fade">
             <em-spots :size="spots" v-if="routeChanged"></em-spots>
           </transition>

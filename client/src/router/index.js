@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import {Message} from 'element-ui'
 import index from '@/pages/home/index.vue'
 import login from '@/pages/home/login.vue'
-import usercenter from '@/pages/home/usercenter.vue'
+import layout from '@/components/layout'
+import project from '@/pages/home/project'
 
 Vue.use(Router)
 
@@ -23,7 +24,14 @@ const router = new Router({
     }, {
       path: '/usercenter',
       name: 'usercenter',
-      component: usercenter
+      component: layout,
+      children: [
+        {
+          path: '/',
+          name: 'profile',
+          component: project
+        }
+      ]
     }
   ]
 })
