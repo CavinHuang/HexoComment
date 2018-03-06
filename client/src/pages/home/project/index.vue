@@ -2,7 +2,7 @@
   <div class="em-project">
     <em-placeholder :show="projects.length === 0">
       <Icon :type="keywords ? 'outlet' : 'happy-outline'"></Icon>
-      <p>{{keywords ? 'placeholder' : page.placeholder}}</p>
+      <p>{{keywords ? '还没有添加网站，快去添加吧！' : page.placeholder}}</p>
     </em-placeholder>
     <em-keyboard-short></em-keyboard-short>
     <em-header
@@ -12,8 +12,7 @@
       <Radio-group
         v-model="filterByAuthor"
         type="button"
-        @on-change="handleFilter"
-        v-if="page.type === 0">
+        @on-change="handleFilter">
         <Radio label="filter0"></Radio>
         <Radio label="filter1"></Radio>
         <Radio label="filter2"></Radio>
@@ -50,7 +49,7 @@
               <div class="em-project__item"
                 @click="go(item)"
                 :class="{
-                  'is-join': page.type === 2 || (page.type === 0 && user.id && item.user._id !== user.id),
+                  'is-join': page.type === 2,
                   'is-group': page.type === 1
                 }">
                 <div class="project-collect">
@@ -122,7 +121,8 @@ export default {
   computed: {
     page () {
       const route = this.$route
-      switch (route.fullPath) {
+      console.log(route);
+      switch (route.path) {
         case '/workbench':
           return {
             title: 'title',
@@ -131,7 +131,7 @@ export default {
             icon: 'code-working',
             type: 2 // 0.个人项目 1.团队项目 2.工作台
           }
-        case '/':
+        case '/usercenter':
           return {
             title: 'title',
             description: 'description',
@@ -150,7 +150,26 @@ export default {
       }
     },
     projects () {
-      return []
+      return [{
+        extend: {is_workbench: false},
+        description: 1,
+        name: 1,
+        url: 1,
+        id: 1,
+        user: {
+          head_img: 'https://avatars1.githubusercontent.com/u/24950299?s=460&v=4'
+        }
+      },
+      {
+        extend: {is_workbench: false},
+        description: 1,
+        name: 1,
+        url: 1,
+        id: 1,
+        user: {
+          head_img: 'https://avatars1.githubusercontent.com/u/24950299?s=460&v=4'
+        }
+      }]
     },
     user () {
       return this.$store.state.user
