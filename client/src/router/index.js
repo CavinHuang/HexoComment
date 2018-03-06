@@ -5,6 +5,7 @@ import index from '@/pages/home/index.vue'
 import login from '@/pages/home/login.vue'
 import layout from '@/components/layout'
 import project from '@/pages/home/project'
+import profile from '@/pages/home/profile'
 
 Vue.use(Router)
 
@@ -28,8 +29,13 @@ const router = new Router({
       children: [
         {
           path: '/',
-          name: 'profile',
+          name: 'project',
           component: project
+        },
+        {
+          path: '/profile',
+          name: 'profile',
+          component: profile
         }
       ]
     }

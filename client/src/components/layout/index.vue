@@ -74,7 +74,7 @@
               <img :src="userHeadImg" v-show="userHeadImg"/>
             </template>
             <Menu-item
-              name="/profile"
+              name="profile"
               @click.native="$router.push('/profile')">
               <Icon type="edit"></Icon> edit
             </Menu-item>
