@@ -121,7 +121,6 @@ export default {
   computed: {
     page () {
       const route = this.$route
-      console.log(route);
       switch (route.path) {
         case '/workbench':
           return {

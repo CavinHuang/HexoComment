@@ -2,11 +2,11 @@
   <div class="em-profile">
     <em-header
       icon="edit"
-      :title="$t('p.profile.header.title')"
-      :description="$t('p.profile.header.description')">
+      title="title"
+      description="description">
     </em-header>
     <em-keyboard-short></em-keyboard-short>
-    <Modal :title="$t('p.profile.modal.title')" v-model="visible" width="400">
+    <Modal title="title" v-model="visible" width="400">
       <img :src="form.headImg" style="width: 100%" v-show="form.headImg">
     </Modal>
     <transition name="fade">
@@ -15,27 +15,22 @@
           <Row :gutter="20">
             <Col span="18">
               <Form label-position="top" :model="form" :rules="rules" ref="form">
-                <Form-item :label="$t('p.profile.form.language')">
-                  <Select v-model="language">
-                    <Option v-for="item in languageList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
-                </Form-item>
-                <Form-item :label="$t('p.profile.form.nickName')">
+                <Form-item label="nickName">
                   <i-input v-model="form.nickName"></i-input>
                 </Form-item>
-                <Form-item :label="$t('p.profile.form.password')">
+                <Form-item label="password">
                   <i-input type="password" v-model="form.password"></i-input>
                 </Form-item>
-                <Form-item :label="$t('p.profile.form.passwordCheck')" prop="passwordCheck">
+                <Form-item label="passwordCheck" prop="passwordCheck">
                   <i-input type="password" v-model="form.passwordCheck"></i-input>
                 </Form-item>
                 <Form-item>
-                  <Button type="primary" @click="update">{{$t('p.profile.form.update')}}</Button>
+                  <Button type="primary" @click="update">update</Button>
                 </Form-item>
               </Form>
             </Col>
             <Col span="6">
-              <p>{{$t('p.profile.form.avatar')}}</p>
+              <p>avatar</p>
               <img
                 class="avatar"
                 :src="form.headImg"
@@ -50,7 +45,7 @@
                 :headers="uploadHeaders"
                 :on-format-error="handleFormatError"
                 :action="uploadAPI">
-                <Button type="ghost" icon="ios-cloud-upload-outline" long>{{$t('p.profile.form.upload')}}</Button>
+                <Button type="ghost" icon="ios-cloud-upload-outline" long>upload</Button>
               </Upload>
             </Col>
           </Row>
@@ -65,15 +60,14 @@
 </style>
 
 <script>
-import * as api from '../../api'
-import languageMap from '../../locale/map'
+const api = {}
 
 export default {
   name: 'profile',
   data () {
     const validatePassCheck = (rule, value, callback) => {
       if (value !== this.form.password) {
-        callback(new Error(this.$t('p.profile.validateError')))
+        callback(new Error('validateError'))
       } else {
         callback()
       }
@@ -81,8 +75,6 @@ export default {
 
     return {
       visible: false,
-      language: this.$ls.get('locale') || 'zh-CN',
-      languageList: languageMap.list,
       uploadAPI: '/api/upload',
       form: {
         headImg: this.$store.state.user.headImg,
@@ -107,8 +99,8 @@ export default {
   methods: {
     handleFormatError (file) {
       this.$Notice.warning({
-        title: this.$tc('p.profile.formatError', 1),
-        desc: this.$tc('p.profile.formatError', 2, { name: file.name })
+        title: 'formatError',
+        desc: 'formatError'
       })
     },
     handleSuccess (response, file, fileList) {
@@ -131,8 +123,8 @@ export default {
               this.$ls.set('locale', this.language)
               this.$i18n.locale = this.language
               this.$Modal.success({
-                title: this.$tc('p.profile.updateSuccess', 1),
-                content: this.$tc('p.profile.updateSuccess', 2),
+                title: 'updateSuccess',
+                content: 'updateSuccess',
                 onOk: () => {
                   this.$router.push('/log-out')
                 }
