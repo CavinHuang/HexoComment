@@ -1,58 +1,28 @@
-<template>
-  <div class="em-profile">
-    <em-header
-      icon="edit"
-      title="title"
-      description="description">
-    </em-header>
-    <em-keyboard-short></em-keyboard-short>
-    <Modal title="title" v-model="visible" width="400">
-      <img :src="form.headImg" style="width: 100%" v-show="form.headImg">
-    </Modal>
-    <transition name="fade">
-      <div class="em-container" v-show="pageAnimated">
-        <div class="em-profile__content">
-          <Row :gutter="20">
-            <Col span="18">
-              <Form label-position="top" :model="form" :rules="rules" ref="form">
-                <Form-item label="nickName">
-                  <i-input v-model="form.nickName"></i-input>
-                </Form-item>
-                <Form-item label="password">
-                  <i-input type="password" v-model="form.password"></i-input>
-                </Form-item>
-                <Form-item label="passwordCheck" prop="passwordCheck">
-                  <i-input type="password" v-model="form.passwordCheck"></i-input>
-                </Form-item>
-                <Form-item>
-                  <Button type="primary" @click="update">update</Button>
-                </Form-item>
-              </Form>
-            </Col>
-            <Col span="6">
-              <p>avatar</p>
-              <img
-                class="avatar"
-                :src="form.headImg"
-                v-show="form.headImg"
-                :alt="form.nickName"
-                :title="form.nickName"
-                @click="visible = true">
-              <Upload
-                :show-upload-list="false"
-                :format="['jpg','jpeg','png']"
-                :on-success="handleSuccess"
-                :headers="uploadHeaders"
-                :on-format-error="handleFormatError"
-                :action="uploadAPI">
-                <Button type="ghost" icon="ios-cloud-upload-outline" long>upload</Button>
-              </Upload>
-            </Col>
-          </Row>
-        </div>
-      </div>
-    </transition>
-  </div>
+<template lang="pug">
+  .em-profile
+    em-header(icon='edit', title='title', description='description')
+    em-keyboard-short
+    modal(title='title', v-model='visible', width='400')
+      img(:src='form.headImg', style='width: 100%', v-show='form.headImg')
+    transition(name='fade')
+      .em-container(v-show='pageAnimated')
+        .em-profile__content
+          row(:gutter='20')
+            Col(span='18')
+              Form(label-position='top', :model='form', :rules='rules', ref='form')
+                Form-item(label='nickName')
+                  i-input(v-model='form.nickName')
+                Form-item(label='password')
+                  i-input(type='password', v-model='form.password')
+                Form-item(label='passwordCheck', prop='passwordCheck')
+                  i-input(type='password', v-model='form.passwordCheck')
+                Form-item
+                  Button(type='primary', @click='update') update
+            Col(span='6')
+              p avatar
+              img.avatar(:src='form.headImg', v-show='form.headImg', :alt='form.nickName', :title='form.nickName', @click='visible = true')
+              upload(:show-upload-list='false', :format="['jpg','jpeg','png']", :on-success='handleSuccess', :headers='uploadHeaders', :on-format-error='handleFormatError', :action='uploadAPI')
+                Button(type='ghost', icon='ios-cloud-upload-outline', long='') upload
 </template>
 
 <style>
@@ -77,8 +47,8 @@ export default {
       visible: false,
       uploadAPI: '/api/upload',
       form: {
-        headImg: this.$store.state.user.headImg,
-        nickName: this.$store.state.user.nickName,
+        headImg: 'https://avatars1.githubusercontent.com/u/24950299?s=460&v=4',
+        nickName: 'cavinHuang',
         password: '',
         passwordCheck: ''
       },
@@ -92,7 +62,7 @@ export default {
   computed: {
     uploadHeaders () {
       return {
-        Authorization: 'Bearer ' + this.$store.state.user.token
+        Authorization: 'Bearer '
       }
     }
   },
