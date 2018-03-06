@@ -6,6 +6,7 @@ import login from '@/pages/home/login.vue'
 import layout from '@/components/layout'
 import project from '@/pages/home/project'
 import profile from '@/pages/home/profile'
+import New from '@/pages/home/new'
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ const router = new Router({
           path: '/profile',
           name: 'profile',
           component: profile
+        },
+        {
+          path: '/new',
+          name: 'new',
+          component: New
         }
       ]
     }
