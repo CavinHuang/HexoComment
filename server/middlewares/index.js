@@ -34,11 +34,11 @@ module.exports = (app) => {
     }
   }))
 
-  app.use(jwt({
-    secret
-  }).unless({
-    path: [/\/login/, /register/]
-  }))
+  // app.use(jwt({
+  //   secret
+  // }).unless({
+  //   path: [/\/api\/login/, /\/api\/register/]
+  // }))
 
   app.use(helmet())
   app.use(cors())

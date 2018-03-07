@@ -20,11 +20,7 @@ Axios.interceptors.request.use(
   config => {
     // const token = getCookie('名称')注意使用的时候需要引入cookie方法，推荐js-cookie
     // 在发送请求之前做某件事
-    if (
-      config.method === 'post' ||
-      config.method === 'put' ||
-      config.method === 'delete'
-    ) {
+    if (config.method === 'post' || config.method === 'put' || config.method === 'delete') {
       // 序列化
       config.data = qs.stringify(config.data)
     }
@@ -75,9 +71,7 @@ Axios.interceptors.response.use(
     } else {
       // 若是有基础信息的情况下,判断时间戳和当前的时间,若是当前的时间大于服务器过期的时间
       // 乖乖的返回去登录页重新登录
-      let lifeTime =
-        JSON.parse(window.localStorage.getItem('loginUserBaseInfo')).lifeTime *
-        1000
+      let lifeTime = JSON.parse(window.localStorage.getItem('loginUserBaseInfo')).lifeTime * 1000
       let nowTime = new Date().getTime() // 当前时间的时间戳
       console.log(nowTime, lifeTime)
       console.log(nowTime > lifeTime)
@@ -136,7 +130,7 @@ export default {
 
 export function fetch (url, params = {}) {
   return new Promise((resolve, reject) => {
-    Axios.get(url, {params: params}).then(response => {
+    Axios.get(url, { params: params }).then(response => {
       resolve(response.data)
     }).catch(err => {
       reject(err)

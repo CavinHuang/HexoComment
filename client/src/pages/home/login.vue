@@ -95,7 +95,9 @@ export default {
               let userInfo = res.data.user
               userInfo['lifeTime'] = res.data.lifeTime
               localStorage.setItem('loginUserBaseInfo', JSON.stringify(userInfo))
+              localStorage.setItem('token', 'Bearer ' + res.data.token)
               this.$store.dispatch('setUserInfo', userInfo)
+              this.$store.dispatch('setToken', 'Bearer ' + res.data.token)
               setTimeout(() => {
                 this.$router.push({
                   path: '/usercenter',

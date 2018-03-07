@@ -17,10 +17,9 @@ module.exports = async (ctx, next) => {
   if (!/^\/api/.test(ctx.url)) {
     await next()
   }
-
   const authorization = ctx.get('Authorization')
   if (!authorization || authorization === '') {
-    ctx.throw(401, JSON.stringify(ajaxReturn(401, 'no token detected in http header Authorization', '验证不通过')))
+    ctx.throw(401, JSON.stringify(ajax(401, 'no token detected in http header Authorization', '验证不通过')))
   }
 
   const token = authorization.split(' ')[ 1 ]
