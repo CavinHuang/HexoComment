@@ -58,7 +58,6 @@ class auth {
         lifeTime: expireTime
       })
     } else {
-      ctx.status = 401
       ctx.body = ajax(4000, '密码错误')
     }
   }

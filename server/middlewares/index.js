@@ -1,5 +1,6 @@
 const path = require('path')
 const bodyParser = require('koa-bodyparser')
+const koabody = require('koa-body')
 const nunjucks = require('koa-nunjucks-2')
 const cors = require('koa-cors')
 const helmet = require('koa-helmet')
@@ -8,7 +9,8 @@ const routerRule = require('./router-rule')
 const logger = require('./logger')
 const miSend = require('./send')
 const koaValidate = require('koa-validate')
-import {secret} from '../config'
+const staticCache = require('koa-static-cache')
+import {secret, upload} from '../config'
 import errorHandel from './error'
 module.exports = (app) => {
   app.use(errorHandel)
@@ -34,17 +36,29 @@ module.exports = (app) => {
     }
   }))
 
-  // app.use(jwt({
-  //   secret
-  // }).unless({
-  //   path: [/\/api\/login/, /\/api\/register/]
-  // }))
+  app.use(jwt({
+    secret
+  }).unless({
+    path: [/\/api\/login/, /\/api\/register/, /\/upload/]
+  }))
 
   app.use(helmet())
-  app.use(cors())
+  app.use(serve('/public', './public'))
+  app.use(serve('/upload', path.resolve(__dirname, 'config', upload.dir)))
+  app.use(cors({credentials: true, maxAge: 2592000}))
   app.use(bodyParser())
+  app.use(koabody({ multipart: true }))
   app.use(miSend())
   logger(app)
   koaValidate(app)
   app.use(require('./check-token'))
+
+  function serve (prefix, filePath) {
+    return staticCache(path.resolve(__dirname, filePath), {
+      prefix: prefix,
+      gzip: true,
+      dynamic: true,
+      maxAge: 60 * 60 * 24 * 30
+    })
+  }
 }

@@ -36,6 +36,9 @@ module.exports = (app) => {
   router.put('/website_type/:id', home.websitesType.update)
   router.delete('/website_type/:id', home.websitesType.delete)
 
+  // utile router
+  router.post('/upload', app.controllers.util.upload)
+
   app.use(router.routes())
     .use(router.allowedMethods())
 }

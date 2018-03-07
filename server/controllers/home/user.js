@@ -16,9 +16,23 @@ class user {
 	 * @return {[type]} [description]
 	 */
   async update (ctx, next) {
+    if (ctx.errors) {
+      ctx.body = ajax(4000, exportError(ctx.errors))
+      return
+    }
     let data = ctx.request.body
 
     let where = ctx.params
+
+    if (data.password != data.password_confirm) {
+      ctx.body = util.ajax(4000, '两次密码不一致')
+    }
+
+    if (data.password && data.password != '') {
+      data.password = await bcrypt.hash(xss(data.password), 5)
+    } else {
+      delete data.password
+    }
 
     let res = await UserHelper.updateUser(where, data)
 

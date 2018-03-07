@@ -9,7 +9,10 @@ const mongoose = require('mongoose')
 module.exports = async (ctx, next) => {
   console.log(ctx.request.url)
   for (let i = 0, l = notCheckToken.length; i < l; i++) {
-    if (ctx.request.url == notCheckToken[i]) {
+    console.log(ctx.request.url)
+    let str = notCheckToken[i]
+    let reg = new RegExp(str)
+    if (reg.test(ctx.request.url)) {
       await next()
       return
     }
