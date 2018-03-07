@@ -66,7 +66,12 @@ transition(name='fade')
 </style>
 
 <script>
-const api = {}
+const api = {
+  u: {getList: {}},
+  group: {getList: () => {
+    return new Promise(() => {})
+  }}
+}
 
 export default {
   name: 'newProject',
@@ -123,7 +128,7 @@ export default {
     } else {
       this.fetchGroup().then(groups => {
         if (groups.length < 2) {
-          this.form.groupId = this.user.id
+          this.form.groupId = 1
         }
       })
     }
@@ -139,7 +144,7 @@ export default {
       if (this.projectData) {
         return !!this.projectData.group
       } else {
-        return this.form.groupId !== this.user.id
+        return this.form.groupId !== 1
       }
     },
     uploadHeaders () {
@@ -159,7 +164,7 @@ export default {
           duration: 5
         })
       } else {
-        this.$Message.success(uploadSuccess)
+        this.$Message.success('uploadSuccess')
       }
     },
     handleSwaggerUploadError () {
@@ -174,7 +179,7 @@ export default {
     fetchGroup () {
       return api.group.getList().then((res) => {
         if (res.data.success) {
-          this.groups = [{ value: this.user.id, label: this.user.nickName }].concat(
+          this.groups = [{ value: 1, label: this.user.nickName }].concat(
             res.data.data.map(o => ({
               value: o._id,
               label: o.name
@@ -212,7 +217,7 @@ export default {
           return
         }
 
-        if (data.group === this.user.id) {
+        if (data.group === 1) {
           data.group = ''
         }
 
