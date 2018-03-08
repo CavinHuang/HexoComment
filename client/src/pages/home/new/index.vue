@@ -18,6 +18,11 @@ import Project from './project'
 
 export default {
   name: 'new',
+  data () {
+    return {
+      projectId: null
+    }
+  },
   components: { Project }
 }
 </script>

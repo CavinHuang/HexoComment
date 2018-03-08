@@ -65,8 +65,8 @@
                 <div class="project-member" v-if="page.type === 0">{{item.websiteTypeData[0].name}}</div>
                 <Button-group class="project-control">
                   <Button type="ghost" icon="link" title="control0" class="copy-url" @click="clip(item)"></Button>
-                  <Button type="ghost" icon="ios-copy" title="contro1" style="width: 34%;" @click.stop="clone(item)"></Button>
-                  <Button type="ghost" icon="trash-b" title="contro2" @click.stop="removeConfirm(item)"></Button>
+                  <Button type="ghost" icon="ios-copy" title="更新项目" style="width: 34%;" @click.stop="clone(item)"></Button>
+                  <Button type="ghost" icon="trash-b" title="删除项目" @click.stop="removeConfirm(item)"></Button>
                 </Button-group>
               </div>
             </div>
@@ -85,8 +85,6 @@
 <script>
 import Clipboard from 'clipboard'
 import debounce from 'lodash/debounce'
-// import * as api from '../../api'
-const api = {}
 
 export default {
   name: 'project',
@@ -224,13 +222,10 @@ export default {
       })
     },
     clone (project) {
-      return api.project.copy({
-        data: { id: project._id }
-      }).then((res) => {
-        if (res.data.success) {
-          this.$Message.success('cloneSuccess')
-          this.$store.commit('project/SET_REQUEST_PARAMS', { pageIndex: 1 })
-          this.$store.dispatch('project/FETCH')
+      this.$router.push({
+        path: '/new',
+        query: {
+          project: project.id
         }
       })
     },

@@ -74,20 +74,21 @@ class websites {
    * @return {[type]}        [description]
    */
   async fetch (ctx, next) {
-    let where
+    let where, res, result
     let isOne = false
     if (ctx.params && JSON.stringify(ctx.params) != '{}') {
       isOne = true
       where = ctx.params
     }
+    if (isOne) {
+      result = await helper.findByWhere(where, null, isOne)
+    } else {
+      res = Websites.aggregate([{
+        $lookup: {from: 'websitestypes', localField: 'websiteType', foreignField: 'id', as: 'websiteTypeData'}}])
+      result = await res.exec()
+    }
 
-    // let res = await helper.findByWhere(where, null, isOne)
-    let res = Websites.aggregate([{
-      $lookup: {from: 'websitestypes', localField: 'websiteType', foreignField: 'id', as: 'websiteTypeData'}
-    }])
-    let result = await res.exec()
-
-    if (res) ctx.body = ajax(2000, '查询成功', result)
+    if (result) ctx.body = ajax(2000, '查询成功', result)
     else ctx.body = ajax(4000, '查询失败')
   }
 
