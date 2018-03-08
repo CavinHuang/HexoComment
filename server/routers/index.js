@@ -32,6 +32,7 @@ module.exports = (app) => {
 
   // websites type
   router.get('/website_type/:id', home.websitesType.fetch)
+  router.get('/website_type', home.websitesType.fetch)
   router.post('/website_type', home.websitesType.add)
   router.put('/website_type/:id', home.websitesType.update)
   router.delete('/website_type/:id', home.websitesType.delete)

@@ -19,11 +19,11 @@ class modelHelper {
         })
       })
     } else {
-      let query = this.model.find()
+      let query = this.model.find({})
       return new Promise((resolve, reject) => {
-        query.exec((err, users) => {
+        query.exec((err, data) => {
           if (err) reject(err)
-          else resolve(users)
+          else resolve(data)
         })
       })
     }

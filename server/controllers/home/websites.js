@@ -1,11 +1,12 @@
 /**
  * websites controller
  */
-const mongoose = require('mongoose')
 import {exportError} from '../../utils/validate'
 import {ajax} from '../../utils'
-import {findByWhere} from '../../modelsHelper/website'
+import modelHelper from '../../modelsHelper/modelHelper'
+const mongoose = require('mongoose')
 const Websites = mongoose.model('Websites')
+const helper = new modelHelper(Websites)
 class websites {
   constructor () {
 
@@ -27,21 +28,21 @@ class websites {
     }
     let {title, description, siteUrl, userId, websiteType} = ctx.request.body
 
-    let websiteRes = await findByWhere({siteUrl: siteUrl}, null, true)
+    let websiteRes = await helper.findByWhere({siteUrl: siteUrl}, null, true)
     if (websiteRes) {
       ctx.body = ajax(4000, '网站已经存在')
       return
     }
 
-    let websites = new Websites({
+    let websitesData = new Websites({
       title: title,
       description: description || '',
       siteUrl: siteUrl,
       userId: userId,
       websiteType: websiteType
     })
-
-    let res = helper.create(websites)
+    console.log(websitesData)
+    let res = helper.create(websitesData)
 
     if (res) ctx.body = ajax(2000, '保存成功', res)
     else ctx.body = ajax(4000, '保存失败')

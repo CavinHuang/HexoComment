@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
-
+var Counter = mongoose.model('Counter')
 /**
  * 定义一个模式(相当于传统意义的表结构)
  * 每个模式映射mongoDB的一个集合，

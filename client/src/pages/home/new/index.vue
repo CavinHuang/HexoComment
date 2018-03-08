@@ -1,8 +1,8 @@
 <template>
   <div class="em-new">
     <em-header icon="plus-round"
-      title="title"
-      description="description">
+      title="添加网站"
+      description="为自己网站添加一个CavinCommnet">
     </em-header>
     <em-keyboard-short></em-keyboard-short>
     <project></project>

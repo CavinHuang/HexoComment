@@ -71,14 +71,15 @@ class websitesType {
    * @return {[type]}        [description]
    */
   async fetch (ctx, next) {
-    let where = ctx.params
+    let where
     let isOne = false
-
-    if (where) isOne = true
-
+    if (ctx.params && JSON.stringify(ctx.params) != '{}') {
+      isOne = true
+      where = ctx.params
+    }
     let res = await helper.findByWhere(where, null, isOne)
 
-    if (res) ctx.body = ajax(2000, '获取成功')
+    if (res) ctx.body = ajax(2000, '获取成功', res)
     else ctx.body = ajax(4000, '获取失败')
   }
 

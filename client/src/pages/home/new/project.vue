@@ -5,52 +5,27 @@ transition(name='fade')
       Form(label-position='top', :model='form', ref='formValidate')
         Form-item(label="name")
           template(slot='label')
-            | name
-            tooltip(content="name")
+            | 网站名称
+            tooltip(content="填写你的网站名称")
               icon(type='help-circled')
-          Row
-            Col(span='7')
-              Form-item
-                i-select(v-model='form.groupId', :disabled='isEdit')
-                  option(v-for='item in groups', :value='item.value', :key='item.value') {{ item.label }}
-            Col(span='1', style='text-align: center')
-              | /
-            Col(span='16')
-              Form-item
-                i-input(v-model='form.projectName', placeholder='example', ref='projectName')
+          i-input(v-model='form.title', placeholder='example', ref='projectName')
+        Form-item
+          template(slot='label')
+            | 选择网站类型
+            tooltip(content="请选择你的网站类型")
+            icon(type='help-circled')
+          i-select(v-model='form.websiteType', :disabled='isEdit')
+            Option(v-for='item in websiteTypes', :value='item.id', :key='item.id') {{ item.name }}
         Form-item(label="url")
           template(slot='label')
-            | url
-            tooltip(content="url")
+            | 网站地址
+            tooltip(content="请填写你网站地址")
               icon(type='help-circled')
-          i-input(v-model='projectUrl', placeholder='example')
-            span(slot='prepend') /
-        Form-item.em-new__form-hr(label="description")
-          i-input(v-model='form.projectDesc', placeholder="description")
-        Form-item(label="swagger")
-          template(slot='label')
-            | swagger
-            span swagger
-          i-select.em-new__swagger-type(v-model='swaggerType')
-            option(value='URL') URL
-            option(value='Upload') Upload
-          i-input(v-if="swaggerType === 'URL'", v-model='form.projectSwagger', placeholder='http://example.com/swagger.json')
-          upload(type='drag', :headers='uploadHeaders', :show-upload-list='false', :format="['json','yml']", :action='uploadAPI', :on-success='handleSwaggerUploadSuccess', :on-format-error='handleSwaggerUploadError', v-if="swaggerType === 'Upload'")
-            div(style='padding: 20px 0')
-              icon(type='ios-cloud-upload', size='52', style='color: #3399ff')
-              p JSON / YML
-          p.em-new__form-description
-            | swagger
-            router-link(to='/docs#swagger')
-              icon(type='help-circled')
-        Form-item.em-new__form-hr(label="member")
-          template(slot='label')
-            | member
-            span ({{isGroup ? 'member' : 'member'}})
-          i-select(v-model='form.projectMembers', multiple='', filterable='', remote='', :disabled='isGroup', placeholder="member", :remote-method='remote', :loading='remoteLoading')
-            option(v-for='option in users', :value='option.value', :key='option.value') {{option.label}}
+          i-input(v-model='form.siteUrl', placeholder='http://zukmb.cn')
+        Form-item.em-new__form-hr(label="网站描述")
+          i-input(type="textarea", v-model='form.description', placeholder="网站描述")
         Form-item(:class="{'em-new__form-hr': isEdit}")
-          Button(type='primary', long='', @click='submit') {{isEdit ? 'update' : 'create'}}
+          Button(type='primary', long='', @click='submit') {{isEdit ? '更新网站信息' : '创建新的项目'}}
         Form-item(label="confirm", v-if='isEdit')
           i-input(v-model='confirmName', placeholder="confirm")
           p.em-new__form-description
@@ -78,20 +53,17 @@ export default {
   data () {
     return {
       uploadAPI: '/api/upload',
-      swaggerType: 'URL',
       remoteLoading: false,
       users: [],
-      groups: [],
+      websiteTypes: [],
       projectUrl: '',
       confirmName: '',
       form: {
-        groupId: '',
-        projectId: '',
-        projectName: '',
-        projectUrl: '',
-        projectDesc: '',
-        projectSwagger: '',
-        projectMembers: []
+        title: '',
+        siteUrl: '',
+        description: '',
+        userId: '',
+        websiteType: ''
       }
     }
   },
@@ -126,11 +98,7 @@ export default {
         this.form.groupId = proj.user._id
       }
     } else {
-      this.fetchGroup().then(groups => {
-        if (groups.length < 2) {
-          this.form.groupId = 1
-        }
-      })
+      this.fetchWebsiteType()
     }
   },
   computed: {
@@ -154,50 +122,24 @@ export default {
     }
   },
   methods: {
-    handleSwaggerUploadSuccess (response) {
-      const data = response.data
-      this.form.projectSwagger = data.path
-      this.swaggerType = 'URL'
-      if (data.expire && data.expire !== -1) {
-        this.$Message.success({
-          content: 'uploadSuccess',
-          duration: 5
-        })
-      } else {
-        this.$Message.success('uploadSuccess')
-      }
-    },
-    handleSwaggerUploadError () {
-      this.$Message.error('formatError')
-    },
     convertUrl (url) {
       const newUrl = '/' + url
       return newUrl === '/'
         ? '/'
         : newUrl.replace(/\/\//g, '/').replace(/\/$/, '')
     },
-    fetchGroup () {
-      return api.group.getList().then((res) => {
-        if (res.data.success) {
-          this.groups = [{ value: 1, label: this.user.nickName }].concat(
-            res.data.data.map(o => ({
-              value: o._id,
-              label: o.name
-            }))
-          )
-        }
-        return this.groups
-      })
+    async fetchWebsiteType () {
+      let websiteTypes = await this.$fetch('/api/website_type')
+
+      this.websiteTypes = websiteTypes.data
     },
     submit () {
       const data = {
-        id: this.form.projectId,
-        name: this.form.projectName,
-        group: this.form.groupId,
-        swagger_url: this.form.projectSwagger,
-        description: this.form.projectDesc,
-        url: this.convertUrl(this.projectUrl),
-        members: this.isGroup ? [] : this.form.projectMembers
+        title: this.form.title,
+        siteUrl: this.convertUrl(this.form.siteUrl),
+        description: this.form.description,
+        websiteType: this.form.websiteType,
+        userId: this.$store.state.auth.user.id
       }
 
       if (this.isEdit) {
@@ -209,29 +151,20 @@ export default {
           }
         })
       } else {
-        if (this.form.groupId === '') {
+        if (this.form.websiteType === '') {
           this.$Message.error({
-            content: 'groupIsNull',
+            content: '没有网站类型',
             duration: 5
           })
           return
         }
-
-        if (data.group === 1) {
-          data.group = ''
-        }
-
-        api.project.create({
-          data: data
-        }).then((res) => {
-          if (res.data.success) {
-            this.$Message.success('create')
-            if (data.group) {
-              const group = this.groups.filter(item => item.value === data.group)[0]
-              this.$router.push(`/group/${group.value}?name=${group.label}`)
-            } else {
-              this.$router.push('/')
-            }
+        this.$post('/api/website', data).then(res => {
+          if (res.code === 2000) {
+            setTimeout(() => {
+              this.$router.push({
+                path: '/usercenter'
+              })
+            }, 500)
           }
         })
       }
