@@ -47,6 +47,7 @@
 
 <script>
 import HomeHeader from '@/components/HomeHeader'
+import axios from 'axios'
 import '@/assets/css/register-login.css'
 import {Message} from 'element-ui'
 export default {
@@ -89,15 +90,15 @@ export default {
           })
           return false
         } else {
-          this.$post('/api/login', this.loginData).then(res => {
+          axios.post('/api/login', this.loginData).then(res => {
             console.log(res)
-            if (res.code === 2000) {
-              let userInfo = res.data.user
-              userInfo['lifeTime'] = res.data.lifeTime
+            if (res.data.code === 2000) {
+              let userInfo = res.data.data.user
+              userInfo['lifeTime'] = res.data.data.lifeTime
               localStorage.setItem('loginUserBaseInfo', JSON.stringify(userInfo))
-              localStorage.setItem('token', 'Bearer ' + res.data.token)
+              localStorage.setItem('token', 'Bearer ' + res.data.data.token)
               this.$store.dispatch('setUserInfo', userInfo)
-              this.$store.dispatch('setToken', 'Bearer ' + res.data.token)
+              this.$store.dispatch('setToken', 'Bearer ' + res.data.data.token)
               setTimeout(() => {
                 this.$router.push({
                   path: '/usercenter',
@@ -142,7 +143,7 @@ export default {
           })
           return false
         } else {
-          this.$post('/api/register', this.registerData).then(res => {
+          axios.post('/api/register', this.registerData).then(res => {
             if (res.code === 2000) {
               Message({
                 showClose: true,

@@ -73,12 +73,13 @@ export default {
       })
     },
     handleSuccess (response, file, fileList) {
-      this.form.headImg = response.data.path
+      console.log(response)
+      this.form.avatar = response.data.path
     },
     update () {
       const data = {
-        nick_name: this.form.nickname,
-        head_img: this.form.headImg
+        nickname: this.form.nickname,
+        avatar: this.form.avatar
       }
 
       if (this.form.password) {
@@ -87,7 +88,7 @@ export default {
 
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.$put('/api/user/' + this.userId, this.form).then((res) => {
+          this.$put('/api/user/' + this.userId, data).then((res) => {
             console.log(res)
           })
         }
