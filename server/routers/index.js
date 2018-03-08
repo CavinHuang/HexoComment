@@ -26,6 +26,7 @@ module.exports = (app) => {
 
   // websites
   router.get('/website/:id', home.websites.fetch)
+  router.get('/website', home.websites.fetch)
   router.post('/website', home.websites.add)
   router.put('/website/:id', home.websites.update)
   router.delete('/website/:id', home.websites.delete)

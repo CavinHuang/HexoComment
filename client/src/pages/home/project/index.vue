@@ -13,9 +13,9 @@
         v-model="filterByAuthor"
         type="button"
         @on-change="handleFilter">
-        <Radio label="filter0"></Radio>
-        <Radio label="filter1"></Radio>
-        <Radio label="filter2"></Radio>
+        <Radio label="我的网站"></Radio>
+        <!-- <Radio label="filter1"></Radio> -->
+        <!-- <Radio label="filter2"></Radio> -->
       </Radio-group>
     </em-header>
     <Modal v-model="removeModal.show" width="360">
@@ -43,7 +43,7 @@
           <transition-group name="list-complete">
             <div
               class="ivu-col ivu-col-span-6 list-complete-item"
-              v-for="(item, index) in projects"
+              v-for="(item, index) in projectList"
               :key="index">
               <!-- 检查 user.id 防止闪烁 -->
               <div class="em-project__item"
@@ -53,23 +53,16 @@
                   'is-group': page.type === 1
                 }">
                 <div class="project-collect">
-                  <transition name="zoom" mode="out-in">
+                  <!-- <transition name="zoom" mode="out-in">
                     <Icon :type="item.extend.is_workbench ? 'android-star' : 'android-star-outline'"
                           :key="item.extend.is_workbench"
                           @click.native.stop="handleWorkbench(item.extend)"></Icon>
-                  </transition>
+                  </transition> -->
                 </div>
-                <h2>{{item.name}}</h2>
+                <h2>{{item.title}}</h2>
                 <div class="project-description">{{item.description}}</div>
-                <div class="project-url">{{item.url}}</div>
-                <div class="project-member" v-if="page.type === 0">
-                  <img :src="item.user.head_img">
-                  <img
-                    :src="img.head_img"
-                    v-for="(img, i) in item.members"
-                    v-if="i < 5"
-                    :key="i">
-                </div>
+                <div class="project-url">{{item.siteUrl}}</div>
+                <div class="project-member" v-if="page.type === 0">{{item.websiteTypeData[0].name}}</div>
                 <Button-group class="project-control">
                   <Button type="ghost" icon="link" title="control0" class="copy-url" @click="clip(item)"></Button>
                   <Button type="ghost" icon="ios-copy" title="contro1" style="width: 34%;" @click.stop="clone(item)"></Button>
@@ -101,6 +94,7 @@ export default {
     return {
       filterByAuthor: 'filter0',
       cliped: false,
+      projectList: [],
       removeModal: {
         show: false,
         project: {},
@@ -117,6 +111,7 @@ export default {
     this.$on('query', debounce((keywords) => {
       this.$store.dispatch('project/QUERY', keywords)
     }, 500))
+    this.fetchProject()
   },
   computed: {
     page () {
@@ -132,8 +127,8 @@ export default {
           }
         case '/usercenter':
           return {
-            title: 'title',
-            description: 'description',
+            title: '我的网站',
+            description: '这里将展示你的网站项目',
             placeholder: 'placeholder',
             icon: 'person',
             type: 0
@@ -150,16 +145,6 @@ export default {
     },
     projects () {
       return [{
-        extend: {is_workbench: false},
-        description: 1,
-        name: 1,
-        url: 1,
-        id: 1,
-        user: {
-          head_img: 'https://avatars1.githubusercontent.com/u/24950299?s=460&v=4'
-        }
-      },
-      {
         extend: {is_workbench: false},
         description: 1,
         name: 1,
@@ -186,6 +171,11 @@ export default {
     }
   },
   methods: {
+    async fetchProject () {
+      let project = await this.$fetch('/api/website')
+
+      this.projectList = project.data
+    },
     go (project) {
       if (!this.cliped) {
         this.$router.push(`/project/${project._id}`)

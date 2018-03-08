@@ -6,6 +6,7 @@ import {ajax} from '../../utils'
 import modelHelper from '../../modelsHelper/modelHelper'
 const mongoose = require('mongoose')
 const Websites = mongoose.model('Websites')
+const WebsitesType = mongoose.model('WebsitesType')
 const helper = new modelHelper(Websites)
 class websites {
   constructor () {
@@ -72,14 +73,21 @@ class websites {
    * @param  {Function} next [description]
    * @return {[type]}        [description]
    */
-  fetch (ctx, next) {
-    let id = ctx.params.id
+  async fetch (ctx, next) {
+    let where
+    let isOne = false
+    if (ctx.params && JSON.stringify(ctx.params) != '{}') {
+      isOne = true
+      where = ctx.params
+    }
 
-    if (!id) ctx.body = ajax(4000, '缺少条件')
+    // let res = await helper.findByWhere(where, null, isOne)
+    let res = Websites.aggregate([{
+      $lookup: {from: 'websitestypes', localField: 'websiteType', foreignField: 'id', as: 'websiteTypeData'}
+    }])
+    let result = await res.exec()
 
-    let res = helper.findByWhere({id: id}, null, true)
-
-    if (res) ctx.body = ajax(2000, '查询成功', res)
+    if (res) ctx.body = ajax(2000, '查询成功', result)
     else ctx.body = ajax(4000, '查询失败')
   }
 
