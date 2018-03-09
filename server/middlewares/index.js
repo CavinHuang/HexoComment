@@ -11,6 +11,7 @@ const miSend = require('./send')
 const koaValidate = require('koa-validate')
 const staticCache = require('koa-static-cache')
 const koaStatic = require('koa-static')
+const pathToRegexp = require('path-to-regexp')
 import {secret, upload} from '../config'
 import errorHandel from './error'
 function serve (prefix, filePath) {
@@ -44,11 +45,22 @@ module.exports = (app) => {
       trimBlocks: true
     }
   }))
-
+// //{
+//   path: [/\/api\/login/, /\/api\/register/, /\/upload/, /\/test/]
+// }
   app.use(jwt({
     secret
-  }).unless({
-    path: [/\/api\/login/, /\/api\/register/, /\/upload/]
+  }).unless((ctx) => {
+    if (/^\/api/.test(ctx.path)) {
+      return pathToRegexp([
+        '/api/login',
+        '/api/register',
+        '/api/upload',
+        '/test',
+        '/article'
+      ]).test(ctx.path)
+    }
+    return true
   }))
 
   app.use(helmet())

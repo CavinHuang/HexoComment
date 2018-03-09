@@ -2086,6 +2086,10 @@ path-to-regexp@^1.1.1:
   dependencies:
     isarray "0.0.1"
 
+path-to-regexp@^2.2.0:
+  version "2.2.0"
+  resolved "http://registry.npm.taobao.org/path-to-regexp/download/path-to-regexp-2.2.0.tgz#80f0ff45c1e0e641da74df313644eaf115050972"
+
 performance-now@^0.2.0:
   version "0.2.0"
   resolved "https://registry.npmjs.org/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
