@@ -57,7 +57,8 @@ module.exports = (app) => {
         '/api/register',
         '/api/upload',
         '/test',
-        '/article'
+        '/article',
+        '/api/articleLike'
       ]).test(ctx.path)
     }
     return true

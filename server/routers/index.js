@@ -41,6 +41,10 @@ module.exports = (app) => {
   // utile router
   router.post('/upload', app.controllers.util.upload)
 
+  // 外部调用api
+  console.log(home.articleLike.addLike);
+  router.post('/articleLike', home.articleLike.addLike)
+
   app.use(router.routes())
     .use(router.allowedMethods())
 }

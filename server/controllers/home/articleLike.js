@@ -12,7 +12,10 @@ class ArticleLike {
    * @param  {[type]}  ctx [description]
    * @return {Promise}     [description]
    */
-  async like (ctx) {}
+  async addLike (ctx) {
+
+    ctx.body = {a:'b'}
+  }
 
   /**
    * 实现阅读量统计
@@ -21,7 +24,7 @@ class ArticleLike {
    */
   async viewCount (ctx) {}
 
-  
+
 }
 
 module.exports = () => {

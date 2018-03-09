@@ -12,6 +12,7 @@ module.exports = async (ctx, next) => {
     console.log(ctx.request.url)
     let str = notCheckToken[i]
     let reg = new RegExp(str)
+    console.log(reg.test(ctx.request.url));
     if (reg.test(ctx.request.url)) {
       await next()
       return

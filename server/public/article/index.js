@@ -4,7 +4,7 @@
  */
 class articleUitl {
   constructor() {
-
+    this.url = "http://127.0.0.1:3000/api"
   }
 
   /**
@@ -23,7 +23,16 @@ class articleUitl {
   /**
    * 增加文章电赞
    */
-  addLike() {}
+  addLike() {
+    fly.post(this.url + '/articleLike', {
+      title: '测试文章',
+      url: 'http://blog.zukmb.cn'
+    }).then((res) => {
+      console.log(res);
+    }).catch(e => {
+      console.log(e);
+    })
+  }
 
   /**
    * 获取文章点赞数

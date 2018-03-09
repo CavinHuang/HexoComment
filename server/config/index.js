@@ -1,6 +1,6 @@
 export const secret = 'jwt_secret'
 
-export const notCheckToken = ['/api/login', '/api/register', '/upload']
+export const notCheckToken = ['/api/login', '/api/register', '/upload', 'api/articleLike']
 
 export const upload = {
   'types': ['.jpg', '.jpeg', '.png', '.gif', '.json', '.yml', '.yaml'],
