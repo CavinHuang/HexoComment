@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
+var Counter = mongoose.model('Counter')
 
 const ArticleLikeSchema= new Schema({
   id: {
@@ -10,13 +11,14 @@ const ArticleLikeSchema= new Schema({
   },
   url: {
     type: String,
-    default: ''
+    unique: true,
+    require: true
   },
   title: {
     type: String,
     default: ''
   },
-  Like: {
+  like: {
     default: 0,
     type: Number
   },
@@ -54,7 +56,7 @@ ArticleLikeSchema.pre('save', function (next) {
   }
   next()
 })
+console.log('ArticleLikeSchema', ArticleLikeSchema);
+var ArticleLike = mongoose.model('ArticleLike', ArticleLikeSchema)
 
-var articleLike = mongoose.model('ArticleLike', ArticleLikeSchema)
-
-module.exports = articleLike
+module.exports = ArticleLike
