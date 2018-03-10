@@ -10,7 +10,9 @@ const helper = new modelHelper(WebComment)
 class webComment {
   constructor () { }
 
-  create (ctx) {}
+  create (ctx) {
+
+  }
 
   fetch (ctx) {}
 }

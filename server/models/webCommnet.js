@@ -14,6 +14,7 @@ const webCommentSchema = new Schema({
   replyCount: {type: Number, default: 0},
   isRecommend: {type: Boolean, default: false},
   pid: {type: Number, default: 0},
+  url: {type: String, require: true},
   meta: {
     createAt: {
       type: Date,
