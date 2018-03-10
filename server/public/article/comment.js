@@ -176,8 +176,26 @@
 
     return target;
 };
-function getNowDateFormat(){
-  var nowDate = new Date();
+function getByClass(oParent,sClass){
+    //高级浏览器支持getElementsByClassName直接使用
+    if(oParent.getElementsByClassName){
+        return oParent.getElementsByClassName(sClass);
+    }else{
+        //不支持需要选中所有标签的类名来选取
+        var res=[];
+        var aAll=oParent.getElementsByTagName('*');
+        for(var i=0;i<aAll.length;i++){
+            //选中标签的全部类名是个str='btn on red'=aAll[i].className   使用正则  reg=/\b sClass \b/g
+            var reg= new RegExp('\\b'+sClass+'\\b','g');
+            if(reg.test(aAll[i].className)){
+                res.push(aAll[i]);
+            }
+        }
+        return res;
+    }
+}
+function getNowDateFormat(date){
+  var nowDate = date || new Date();
   var year = nowDate.getFullYear();
   var month = filterNum(nowDate.getMonth()+1);
   var day = filterNum(nowDate.getDate());
@@ -235,7 +253,8 @@ class comment {
 					replyClick($(this));
 				}
 			});
-			$(".reply-list-btn").click(function(){
+      console.log(getEle(".reply-list-btn"));
+			getEle(".reply-list-btn").length > 0 && getEle(".reply-list-btn")[0].click(function(){
 				if($(this).parent().parent().find(".replybox").length > 0){
 					$(".replybox").remove();
 				}else{
@@ -270,11 +289,13 @@ class comment {
    * @return {[type]} [description]
    */
   crateCommentInfo(obj){
-    if(typeof(obj.time) == "undefined" || obj.time == ""){
+    if(typeof(obj.meta.updateAt) == "undefined" || obj.meta.updateAt == ""){
 			obj.time = getNowDateFormat();
-		}
+		}else {
+      obj.time =getNowDateFormat(new Date(obj.meta.updateAt))
+    }
 
-		var el = "<div class='comment-info'><header><img src='"+obj.img+"'></header><div class='comment-right'><h3>"+obj.replyName+"</h3>"
+		var el = "<div class='comment-info'><header><img src='"+obj.avatar+"'></header><div class='comment-right'><h3>"+obj.nickname+"</h3>"
 				+"<div class='comment-content-header'><span><i class='glyphicon glyphicon-time'></i>"+obj.time+"</span>";
 
 		if(typeof(obj.address) != "undefined" && obj.browse != ""){
