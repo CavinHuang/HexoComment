@@ -19,7 +19,7 @@ mongoose.connect(db)
  * 获取数据库表对应的js对象所在的路径
  * @type {[type]}
  */
-const models_path = path.join(__dirname, '/models')
+const models_path = path.join(__dirname, './models')
 
 /**
  * 已递归的形式，读取models文件夹下的js模型文件，并require
@@ -29,14 +29,17 @@ const models_path = path.join(__dirname, '/models')
 var walk = async function (modelPath) {
   fs
     .readdirSync(modelPath)
-    .forEach(async function(file) {
+    .forEach(async function (file) {
       var filePath = path.join(modelPath, '/' + file)
       var stat = fs.statSync(filePath)
 
       if (stat.isFile()) {
         if (/(.*)\.(js|coffee)/.test(file)) {
-          console.log(filePath);
-          await require(filePath)
+          try {
+            require(filePath)
+          } catch (e) {
+            console.log(e)
+          }
         }
       } else if (stat.isDirectory()) {
         walk(filePath)
@@ -44,8 +47,9 @@ var walk = async function (modelPath) {
     })
 }
 walk(models_path)
-console.log('load models');
-console.log(mongoose.model('ArticleLike'));
+
+// console.log(mongoose.model('WebsitesType'))
+
 // 加载middlewares
 middlewares(app)
 // 注册router

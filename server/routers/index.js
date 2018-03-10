@@ -42,8 +42,9 @@ module.exports = (app) => {
   router.post('/upload', app.controllers.util.upload)
 
   // 外部调用api
-  console.log(home.articleLike.addLike);
-  router.post('/articleLike', home.articleLike.addLike)
+  router.post('/article/:field', home.articleLike.add)
+  router.get('/article/:field', home.articleLike.get)
+  router.get('/article', home.articleLike.get)
 
   app.use(router.routes())
     .use(router.allowedMethods())

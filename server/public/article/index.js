@@ -3,34 +3,21 @@
  * 文章操作类
  */
 class articleUitl {
-  constructor() {
-    this.url = "http://127.0.0.1:3000/api"
+  constructor () {
+    this.url = 'http://127.0.0.1:3000/api'
   }
 
   /**
-   * 增加count
+   * 增加文章点赞或者访问量
    */
-  addCount () {
-
-  }
-
-  /**
-   * 获取本文的访问量
-   * @return {[type]} [description]
-   */
-  getCount () {}
-
-  /**
-   * 增加文章电赞
-   */
-  addLike() {
-    fly.post(this.url + '/articleLike', {
+  add (field, callback) {
+    fly.post(this.url + '/article/' + field, {
       title: '测试文章',
       url: 'http://blog.zukmb.cn'
     }).then((res) => {
-      console.log(res);
+      callback && callback(res.data)
     }).catch(e => {
-      console.log(e);
+      callback && callback(e)
     })
   }
 
@@ -38,16 +25,24 @@ class articleUitl {
    * 获取文章点赞数
    * @return {[type]} [description]
    */
-  getLike(){}
+  get (field, callback) {
+    fly.get(this.url + '/article/' + field, {
+      url: 'http://blog.zukmb.cn'
+    }).then((res) => {
+      callback && callback(res.data)
+    }).catch(e => {
+      callback && callback(e)
+    })
+  }
 
   /**
    * 增加评论
    */
-  addComment() {}
+  addComment () {}
 
   /**
    * 获取文章评论
    * @return {[type]} [description]
    */
-  getComment(){}
+  getComment () {}
 }

@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
-
+var Counter = mongoose.model('Counter')
 /**
  * 定义一个模式(相当于传统意义的表结构)
  * 每个模式映射mongoDB的一个集合，
@@ -10,27 +10,23 @@ var Schema = mongoose.Schema
  * 除了定义结构外，还定义文档的实例方法，静态模型方法，复合索引，中间件等
  * @type {mongoose}
  */
-var UserSchema = new Schema({
-  phoneNumber: {
-    unique: true,
-    type: String
-  },
-  verified: {
-    type: Boolean,
+var ProjectSchema = new Schema({
+  id: Number,
+  url: {
+    type: String,
     default: false
   },
-  id: String,
-  accessToken: String,
-  nickname: String,
-  email: String,
-  avatar: String,
-  password: String,
+  like: {
+    type: Number,
+    default: 0
+  },
+  viewCount: {
+    type: Number,
+    default: 0
+  },
+  title: String,
   meta: {
     createAt: {
-      type: Date,
-      default: Date.now()
-    },
-    tokenAt: {
       type: Date,
       default: Date.now()
     },
@@ -42,9 +38,18 @@ var UserSchema = new Schema({
 })
 
 // Defines a pre hook for the document.
-UserSchema.pre('save', function (next) {
+ProjectSchema.pre('save', function (next) {
   if (this.isNew) {
-    this.meta.createAt = this.meta.updateAt = Date.now()
+    let websiteType = this
+    // 自增
+    return Counter.incrementCounter('project', function (err, res) {
+      if (err) {
+        return next(err)
+      }
+      websiteType.id = res
+      websiteType.meta.createAt = websiteType.meta.updateAt = Date.now()
+      next()
+    })
   } else {
     this.meta.updateAt = Date.now()
   }
@@ -52,14 +57,14 @@ UserSchema.pre('save', function (next) {
 })
 
 /**
- * 定义模型User
+ * 定义模型Project
  * 模型用来实现我们定义的模式，调用mongoose.model来编译Schema得到Model
  * @type {[type]}
  */
-// 参数User 数据库中的集合名称, 不存在会创建.
-var User = mongoose.model('User', UserSchema)
+// 参数Project 数据库中的集合名称, 不存在会创建.
+var Project = mongoose.model('ArticleLike', ProjectSchema)
 
-module.exports = User
+module.exports = Project
 
 /**
  * nodejs中文社区这篇帖子对mongoose的用法总结的不错：https://cnodejs.org/topic/548e54d157fd3ae46b233502

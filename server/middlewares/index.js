@@ -45,20 +45,21 @@ module.exports = (app) => {
       trimBlocks: true
     }
   }))
-// //{
-//   path: [/\/api\/login/, /\/api\/register/, /\/upload/, /\/test/]
-// }
+  // //{
+  //   path: [/\/api\/login/, /\/api\/register/, /\/upload/, /\/test/]
+  // }
   app.use(jwt({
     secret
   }).unless((ctx) => {
     if (/^\/api/.test(ctx.path)) {
+      console.log(111111)
       return pathToRegexp([
         '/api/login',
         '/api/register',
         '/api/upload',
         '/test',
         '/article',
-        '/api/articleLike'
+        '/api/article/:field'
       ]).test(ctx.path)
     }
     return true
