@@ -7,7 +7,7 @@ const Schema = mongoose.Schema
 
 const webCommentSchema = new Schema({
   id: { type: Number, default: false, unique: true },
-  nickname: {type: String, default: ''}
+  nickname: {type: String, default: ''},
   avatar: {type: String, default: ''},
   content: {type: String, default: ''},
   like: {type: Number, default: 0},

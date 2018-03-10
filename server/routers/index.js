@@ -46,6 +46,10 @@ module.exports = (app) => {
   router.get('/article/:field', home.articleLike.get)
   router.get('/article', home.articleLike.get)
 
+  // 外部调用评论
+  router.post('/comment', home.webComment.create)
+  router.get('/comment', home.webComment.fetch)
+
   app.use(router.routes())
     .use(router.allowedMethods())
 }
