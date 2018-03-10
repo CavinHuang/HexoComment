@@ -9,8 +9,8 @@
 <body>
   <h1>test</h1>
   <div class="form">
-    <textarea name="name" rows="8" cols="80" placeholder="评论内容"></textarea>
-    <input type="button" name="" value="提交评论">
+    <textarea name="name" rows="8" cols="80" placeholder="评论内容" id="textarea"></textarea>
+    <input type="button" name="" value="提交评论" id="submit">
   </div>
   <script src="http://127.0.0.1:3000/article/fly.min.js" charset="utf-8"></script>
   <script src="http://127.0.0.1:3000/article/index.js" charset="utf-8"></script>
@@ -28,6 +28,19 @@
     {
       console.log(res);
     })
+
+    let btn = document.querySelector("#submit")
+    btn.onclick = () =>
+    {
+      let data = {}
+      data.content = document.querySelector('#textarea').value
+      data.url = window.location.href
+      data.pid = 1
+      util.addComment(data, function(res)
+      {
+        console.log(res);
+      })
+    }
   </script>
 </body>
 

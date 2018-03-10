@@ -38,7 +38,13 @@ class articleUitl {
   /**
    * 增加评论
    */
-  addComment () {}
+  addComment (data, callback) {
+    fly.post(this.url + '/comment', data).then((res) => {
+      callback && callback(res.data)
+    }).catch(e => {
+      callback && callback(e)
+    })
+  }
 
   /**
    * 获取文章评论
