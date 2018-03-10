@@ -40,7 +40,22 @@ class webComment {
     }
   }
 
-  fetch (ctx) {}
+  /**
+   * 获取评论
+   * @param  {[type]} ctx [description]
+   * @return {[type]}     [description]
+   */
+  async fetch (ctx) {
+    let url = ctx.query.url
+
+    let result = await helper.findByWhere({url: decodeURIComponent(url)}, null, false)
+
+    if(result) {
+      ctx.body = ajax(2000, '查询成功', result)
+    }else{
+      ctx.body = ajax(4000, '查询失败')
+    }
+  }
 }
 
 module.exports = () => {

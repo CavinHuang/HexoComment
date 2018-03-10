@@ -50,5 +50,11 @@ class articleUitl {
    * 获取文章评论
    * @return {[type]} [description]
    */
-  getComment () {}
+  getComment (callback) {
+    fly.get(this.url + '/comment', {url: window.location.href}).then((res) => {
+      callback && callback(res.data)
+    }).catch(e => {
+      callback && callback(e)
+    })
+  }
 }
