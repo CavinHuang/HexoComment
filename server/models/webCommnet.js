@@ -13,6 +13,7 @@ const webCommentSchema = new Schema({
   like: {type: Number, default: 0},
   replyCount: {type: Number, default: 0},
   isRecommend: {type: Boolean, default: false},
+  pid: {type: Number, default: 0},
   meta: {
     createAt: {
       type: Date,
