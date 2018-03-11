@@ -211,11 +211,12 @@ function filterNum(num){
     return num;
   }
 }
-function parseDom(arg) {
-　　 var objE = document.createElement("div");
-　　 objE.innerHTML = arg;
-　　 return objE.childNodes;
+function parseDom (arg){
+  var objE = document.createElement("div");
+  objE.innerHTML = arg;
+  return objE.childNodes;
 }
+
 class comment {
   constructor(options) {
     var defaults = {}
@@ -244,15 +245,20 @@ class comment {
       for (var i = 0; i < parseDom(totalString).length; i++) {
         this.commentListEle[0].appendChild(parseDom(totalString)[i])
       }
+      var replyBtns = this.commentListEle[0].querySelectorAll(".reply-btn")
+      var _this = this
+      for (var i = 0; i < replyBtns.length; i++) {
+        replyBtns[i].addEventListener('click', function(){
+          console.log(getEle(".replybox"));
+  				if(this.commentListEle[0].parentNode.parentNode.querySelectorAll(".replybox").length > 0){
+  					$(".replybox").remove();
+  				}else{
+  					$(".replybox").remove();
+  					replyClick($(this));
+  				}
+  			}, false)
+      }
 
-      this.commentListEle[0].querySelectorAll(".reply-btn")[0].click(function(){
-				if($(this).parent().parent().find(".replybox").length > 0){
-					$(".replybox").remove();
-				}else{
-					$(".replybox").remove();
-					replyClick($(this));
-				}
-			});
       console.log(getEle(".reply-list-btn"));
 			getEle(".reply-list-btn").length > 0 && getEle(".reply-list-btn")[0].click(function(){
 				if($(this).parent().parent().find(".replybox").length > 0){
