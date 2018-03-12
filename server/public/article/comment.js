@@ -1,11 +1,11 @@
 /**
  * 评论组件封装
  */
- function getEle(str){
+ function getEle(str, aParent){
      //如果是字符串的话先要去除收尾空格  eg:"   on replace   index  play auto   "
      var arr = str.replace(/^\s+|\s+$/g,'').split(/\s+/g);
      var aChild = [];
-     var aParent = [document];
+     var aParent = aParent || [document];
      for(var i = 0;i<arr.length;i++){
          aChild = getByStr(aParent,arr[i]);
          aParent = aChild
@@ -250,11 +250,17 @@ class comment {
       for (var i = 0; i < replyBtns.length; i++) {
         replyBtns[i].addEventListener('click', function(){
           console.log(getEle(".replybox"));
-  				if(this.commentListEle[0].parentNode.parentNode.querySelectorAll(".replybox").length > 0){
-  					$(".replybox").remove();
+          var _that = this
+  				if(_this.commentListEle[0].parentNode.parentNode.querySelectorAll(".replybox").length > 0){
+
+            getEle(".replybox").forEach(function (v, i) {
+              _that.removeChild(v);
+            })
   				}else{
-  					$(".replybox").remove();
-  					replyClick($(this));
+            getEle(".replybox").forEach(function (v, i) {
+              _that.removeChild(v);
+            })
+  					_this.replyClick(_that);
   				}
   			}, false)
       }
@@ -272,6 +278,7 @@ class comment {
 
 		//添加新数据
 		if(option.add != ""){
+
 			obj = option.add;
 			var str = crateCommentInfo(obj);
 			$(this).prepend(str).find(".reply-btn").click(function(){
@@ -329,4 +336,32 @@ class comment {
 		return el;
   }
 
+  replyClick(el){
+    console.log(el);
+    var domEle = parseDom("<div class='replybox'><textarea cols='80' rows='50' placeholder='来说几句吧......' class='mytextarea' ></textarea><span class='send'>发送</span></div>")
+    console.log(domEle);
+		el.parentNode.parentNode.appendChild(domEle[0])
+		getEle(".send", [el.parentNode.parentNode])[0].click(function(){
+			var content = $(this).prev().val();
+			if(content != ""){
+				var parentEl = $(this).parent().parent().parent().parent();
+				var obj = new Object();
+				obj.replyName="匿名";
+				if(el.parent().parent().hasClass("reply")){
+					console.log("1111");
+					obj.beReplyName = el.parent().parent().find("a:first").text();
+				}else{
+					console.log("2222");
+					obj.beReplyName=parentEl.find("h3").text();
+				}
+				obj.content=content;
+				obj.time = getNowDateFormat();
+				var replyString = createReplyComment(obj);
+				$(".replybox").remove();
+				parentEl.find(".reply-list").append(replyString).find(".reply-list-btn:last").click(function(){alert("不能回复自己");});
+			}else{
+				alert("空内容");
+			}
+		});
+	}
 }
