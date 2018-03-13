@@ -283,7 +283,6 @@ class comment {
   			}, false)
       }
 
-      console.log(getEle(".reply-list-btn"));
 			getEle(".reply-list-btn").length > 0 && getEle(".reply-list-btn")[0].click(function(){
 				if($(this).parent().parent().find(".replybox").length > 0){
 					$(".replybox").remove();
