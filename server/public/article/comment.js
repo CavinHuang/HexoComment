@@ -216,7 +216,24 @@ function parseDom (arg){
   objE.innerHTML = arg;
   return objE.childNodes;
 }
-
+var hasClass = (function(){
+    var div = document.createElement("div") ;
+    if( "classList" in div && typeof div.classList.contains === "function" ) {
+        return function(elem, className){
+            return elem.classList.contains(className) ;
+        } ;
+    } else {
+        return function(elem, className){
+            var classes = elem.className.split(/\s+/) ;
+            for(var i= 0 ; i < classes.length ; i ++) {
+                if( classes[i] === className ) {
+                    return true ;
+                }
+            }
+            return false ;
+        } ;
+    }
+})() ;
 class comment {
   constructor(options) {
     var defaults = {}
@@ -262,6 +279,7 @@ class comment {
             })
   					_this.replyClick(_that);
   				}
+          console.log(getEle(".reply-list-btn"));
   			}, false)
       }
 
@@ -337,31 +355,32 @@ class comment {
   }
 
   replyClick(el){
-    console.log(el);
+    var _this = this
     var domEle = parseDom("<div class='replybox'><textarea cols='80' rows='50' placeholder='来说几句吧......' class='mytextarea' ></textarea><span class='send'>发送</span></div>")
-    console.log(domEle);
 		el.parentNode.parentNode.appendChild(domEle[0])
-		getEle(".send", [el.parentNode.parentNode])[0].click(function(){
-			var content = $(this).prev().val();
+    console.log(getEle(".send", [el.parentNode.parentNode])[0]);
+		getEle(".send", [el.parentNode.parentNode])[0].addEventListener('click',function(){
+			var content = this.previousSibling.value;
 			if(content != ""){
-				var parentEl = $(this).parent().parent().parent().parent();
+				var parentEl = this.parentNode.parentNode.parentNode.parentNode;
 				var obj = new Object();
 				obj.replyName="匿名";
-				if(el.parent().parent().hasClass("reply")){
-					console.log("1111");
+				if(hasClass(el.parentNode.parentNode, "reply")){
+					console.log(getEle('a:first', [el.parentNode.parentNode]));
 					obj.beReplyName = el.parent().parent().find("a:first").text();
 				}else{
-					console.log("2222");
-					obj.beReplyName=parentEl.find("h3").text();
+					obj.beReplyName=getEle('h3', [parentEl])[0].innerText;
 				}
 				obj.content=content;
 				obj.time = getNowDateFormat();
-				var replyString = createReplyComment(obj);
-				$(".replybox").remove();
-				parentEl.find(".reply-list").append(replyString).find(".reply-list-btn:last").click(function(){alert("不能回复自己");});
+				var replyString = _this.createReplyComment(obj);
+        var replyBoxEle = getEle(".replybox")[0]
+				replyBoxEle.parentNode.removeChild(replyBoxEle);
+        var replyListEl = getEle(".reply-list", [parentEl])[0]
+				replyListEl.appendChild(parseDom(replyString)[0])
 			}else{
 				alert("空内容");
 			}
-		});
+		}, false);
 	}
 }
