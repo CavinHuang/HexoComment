@@ -279,19 +279,21 @@ class comment {
             })
   					_this.replyClick(_that);
   				}
-          console.log(getEle(".reply-list-btn"));
   			}, false)
       }
 
-      console.log(getEle(".reply-list-btn"));
-			getEle(".reply-list-btn").length > 0 && getEle(".reply-list-btn")[0].click(function(){
-				if($(this).parent().parent().find(".replybox").length > 0){
-					$(".replybox").remove();
-				}else{
-					$(".replybox").remove();
-					replyClick($(this));
-				}
-			})
+      var subReplyBtnEle = getEle(".reply-list-btn")
+
+      for (var i = 0; i < subReplyBtnEle.length; i++) {
+        subReplyBtnEle[i].onclick(function(){
+  				if($(this).parent().parent().find(".replybox").length > 0){
+  					$(".replybox").remove();
+  				}else{
+  					$(".replybox").remove();
+  					replyClick($(this));
+  				}
+  			})
+      }
 		}
 
 		//添加新数据
@@ -366,8 +368,7 @@ class comment {
 				var obj = new Object();
 				obj.replyName="匿名";
 				if(hasClass(el.parentNode.parentNode, "reply")){
-					console.log(getEle('a:first', [el.parentNode.parentNode]));
-					obj.beReplyName = el.parent().parent().find("a:first").text();
+					obj.beReplyName = getEle('a:first', [el.parentNode.parentNode])[0].innerText;
 				}else{
 					obj.beReplyName=getEle('h3', [parentEl])[0].innerText;
 				}
@@ -377,7 +378,16 @@ class comment {
         var replyBoxEle = getEle(".replybox")[0]
 				replyBoxEle.parentNode.removeChild(replyBoxEle);
         var replyListEl = getEle(".reply-list", [parentEl])[0]
-				replyListEl.appendChild(parseDom(replyString)[0])
+        var replyListItem = parseDom(replyString)[0]
+				replyListEl.appendChild(replyListItem)
+
+        var subReplyBtnEle = getEle('.reply-list-btn', [replyListEl])
+        for (var i = 0; i < subReplyBtnEle.length; i++) {
+          subReplyBtnEle[i].addEventListener('click', function(e){
+            _this.replyClick(this)
+          }, false)
+        }
+
 			}else{
 				alert("空内容");
 			}
