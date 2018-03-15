@@ -266,7 +266,6 @@ class comment {
       var _this = this
       for (var i = 0; i < replyBtns.length; i++) {
         replyBtns[i].addEventListener('click', function(){
-          console.log(getEle(".replybox"));
           var _that = this
   				if(_this.commentListEle[0].parentNode.parentNode.querySelectorAll(".replybox").length > 0){
 
@@ -300,10 +299,13 @@ class comment {
 		if(option.add != ""){
 
 			obj = option.add;
-			var str = crateCommentInfo(obj);
-			$(this).prepend(str).find(".reply-btn").click(function(){
-				replyClick($(this));
-			});
+			var str = this.crateCommentInfo(obj);
+      let itemEle = parseDom(str)[0]
+			this.commentListEle[0].prepend(itemEle)
+      var _this = this
+      getEle(".reply-btn", [itemEle])[0].addEventListener('click',function(){
+				_this.replyClick(_this.commentListEle[0]);
+			}, false);
 		}
   }
 

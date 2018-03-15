@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <style media="screen">
   .container{
     width: 1000px;
@@ -101,20 +102,6 @@
     {
       console.log(res);
     })
-
-    let btn = document.querySelector("#submit")
-    btn.onclick = () =>
-    {
-      let data = {}
-      data.content = document.querySelector('#textarea').value
-      data.url = window.location.href
-      // data.pid = 1
-      util.addComment(data, function(res)
-      {
-        console.log(res);
-      })
-    }
-
     const commentUtil = new comment({
       commentListEle: "#commentList"
     })
@@ -123,6 +110,29 @@
       console.log(res);
       commentUtil.addCommentList({data: res.data})
     })
+    let btn = document.querySelector("#submit")
+    let random = (min, max) => {
+      return Math.floor((max - min + 1) * Math.random() + min)
+    }
+    btn.onclick = () =>
+    {
+      let data = {}
+      data.content = document.querySelector('#textarea').value
+      data.url = window.location.href
+      data.nickname = '游客' + random(random(1, 1000), random(1000, 10000))
+      data.avatar = 'http://127.0.0.1:3000/upload/avatar.jpg'
+      data.meta = {
+        updateAt: Date.now()
+      }
+      // data.pid = 1
+      util.addComment(data, function(res)
+      {
+        commentUtil.addCommentList({data: {}, add: data})
+      })
+    }
+
+
+
   </script>
 </body>
 
