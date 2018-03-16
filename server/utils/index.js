@@ -19,6 +19,15 @@ exports.ajax = (code = 2000, msg = '', data = {}, url = '') => {
   }
 }
 
+/**
+ * 返回随机书
+ * @param  {[type]} min [description]
+ * @param  {[type]} max [description]
+ * @return {[type]}     [description]
+ */
 exports.random = (min, max) => {
   return Math.floor((max - min + 1) * Math.random() + min)
 }
+
+
+// exports.setCommentTree = setCommentTree

@@ -7,6 +7,27 @@ import modelHelper from '../../modelsHelper/modelHelper'
 const mongoose = require('mongoose')
 const WebComment = mongoose.model('WebComment')
 const helper = new modelHelper(WebComment)
+/**
+ * 返回评论树
+ * @param {[type]} data      [description]
+ * @param {Number} [pid=0]   [description]
+ * @param {Number} [level=1] [description]
+ */
+let setCommentTree = (data, pid, level) => {
+  let result = []
+  let _data = JSON.parse(JSON.stringify(data))
+  for (var i = 0; i < _data.length; i++) {
+    let _d = _data[i]
+    let tmp = {}
+    if(_d.pid  == pid) {
+      _d.level = level
+      _d.child = setCommentTree(data, _d.id, level + 1)
+      tmp = _d
+      result.push(tmp)
+    }
+  }
+  return result
+}
 class webComment {
   constructor () { }
 
@@ -49,9 +70,9 @@ class webComment {
     let url = ctx.query.url
 
     let result = await helper.findByWhere({url: decodeURIComponent(url)}, null, false)
-
     if(result) {
-      ctx.body = ajax(2000, '查询成功', result)
+      let data = setCommentTree(result, 0, 1)
+      ctx.body = ajax(2000, '查询成功', data)
     }else{
       ctx.body = ajax(4000, '查询失败')
     }

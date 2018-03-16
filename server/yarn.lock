@@ -845,6 +845,10 @@ dasherize@2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/dasherize/download/dasherize-2.0.0.tgz#6d809c9cd0cf7bb8952d80fc84fa13d47ddb1308"
 
+datatree@^2.1.2:
+  version "2.1.2"
+  resolved "http://registry.npm.taobao.org/datatree/download/datatree-2.1.2.tgz#307a31229b50d9ecd02728b3feeccf3cd1b036be"
+
 debug@*, debug@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"

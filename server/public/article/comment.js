@@ -313,9 +313,9 @@ class comment {
    * 返回每一个回复体的内容
    * @return {[type]} [description]
    */
-  createReplyComment(reply){
-    var replyEl = "<div class='reply'><div><a href='javascript:void(0)' class='replyname'>"+reply.replyName+"</a>:<a href='javascript:void(0)'>@"+reply.beReplyName+"</a><span>"+reply.content+"</span></div>"
-						+ "<p><span>"+reply.time+"</span> <span class='reply-list-btn'>回复</span></p></div>";
+  createReplyComment(reply, toObj){
+    var replyEl = "<div class='reply'><div><a href='javascript:void(0)' class='replyname'>"+reply.nickname+"</a>:<a href='javascript:void(0)'>@"+toObj.nickname+"</a><span>"+reply.content+"</span></div>"
+						+ "<p><span>"+getNowDateFormat(new Date(reply.meta.createAt))+"</span> <span class='reply-list-btn'>回复</span></p></div>";
 		return replyEl;
   }
 
@@ -346,12 +346,12 @@ class comment {
 			el = el + "<span><i class='glyphicon glyphicon-globe'></i> "+obj.browse+"</span>";
 		}
 
-		el = el + "</div><div class='col-md-2'><span class='reply-btn'>回复</span></div></div></div><div class='reply-list'>";
-		if(obj.replyBody && obj.replyBody != "" && obj.replyBody.length > 0){
-			var arr = obj.replyBody;
+		el = el + "</div><div class='col-md-2'><span class='reply-btn' data-id='"+obj.id+"'>回复</span></div></div></div><div class='reply-list'>";
+		if(obj.child && obj.child != "" && obj.child.length > 0){
+			var arr = obj.child;
 			for(var j=0;j<arr.length;j++){
 				var replyObj = arr[j];
-				el = el+createReplyComment(replyObj);
+				el = el + this.createReplyComment(replyObj, obj);
 			}
 		}
 		el = el+"</div></div></div>";
@@ -369,6 +369,7 @@ class comment {
 				var parentEl = this.parentNode.parentNode.parentNode.parentNode;
 				var obj = new Object();
 				obj.replyName="匿名";
+        obj.pid = el.getAttribute('data-id')
 				if(hasClass(el.parentNode.parentNode, "reply")){
 					obj.beReplyName = getEle('a:first', [el.parentNode.parentNode])[0].innerText;
 				}else{
