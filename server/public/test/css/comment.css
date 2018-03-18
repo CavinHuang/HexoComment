@@ -14,18 +14,19 @@ body{font-family: "Microsoft Yahei";}
 .pull-right{float: right !important;}
 .pull-left{float: left !important;}
 /*----------------------------------------------------------------------------------------------------------*/
-.content{float: left;}
-.flex-text-wrap,pre{margin: 0 !important;}
-.commentAll{width: 500px;padding: 20px;border: 1px solid #ededed;margin: 20px auto;}
-.plBtn{width: 75px;height: 36px;line-height: 36px;background-color: #339b53;text-align: center;display: block;float: right;color: #FFFFFF;font-size: 12px;border-radius: 6px;margin-right: 2px;margin-top: 20px;}
+/*.content{float: left;}*/
+.flex-text-wrap,pre{margin: 0 !important; width: 84%}
+.commentAll{width: 100%;border: 1px solid #ededed;margin: 20px auto; overflow: hidden;}
+.plBtn{float: right; margin-right: 5%;width: 75px;height: 36px;line-height: 36px;background-color: #339b53;text-align: center;display: block;color: #FFFFFF;font-size: 12px;border-radius: 6px;margin-top: 20px;}
 .plBtn:hover{background-color: #2f904d;}
 
 /*----------评论区域 begin----------*/
+.reviewArea{position: relative;}
 .comment-show{margin-top: 20px;}
 .comment-show-con {
     width: 100%;
     border-top: 1px solid #EDEDED;
-    padding: 10px 0;
+    padding: 10px;
 }
 .comment-show-con-img {
     width: 48px;
@@ -34,7 +35,7 @@ body{font-family: "Microsoft Yahei";}
     margin-top: 5px;
 }
 .comment-show-con-list {
-    width: 85%;
+    width: 84%;
     margin-left: 3%;
 }
 .pl-text {
@@ -49,7 +50,7 @@ body{font-family: "Microsoft Yahei";}
 }
 .hf-list-con {
     float: left;
-    width: 100%;
+    width: 98%;
     background-color: #eaeaec;
     margin-top: 7px;
 }
@@ -136,7 +137,7 @@ body{font-family: "Microsoft Yahei";}
 .hf-con{width: 100%;margin-top: 24px;}
 .hf-input{font-size: 12px;}
 .all-pl-con {
-    width: 96%;
+    width: 100%;
     padding: 2% 0;
     float: left;
     margin: 0 2%;
