@@ -22,11 +22,12 @@ body{font-family: "Microsoft Yahei";}
 
 /*----------评论区域 begin----------*/
 .reviewArea{position: relative;}
-.comment-show{margin-top: 20px;}
+.comment-show{margin-top: 20px; width: 100%; overflow: hidden;}
 .comment-show-con {
     width: 100%;
     border-top: 1px solid #EDEDED;
     padding: 10px;
+    background: #eaeaec;
 }
 .comment-show-con-img {
     width: 48px;
