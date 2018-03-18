@@ -284,14 +284,18 @@ class comment {
       var subReplyBtnEle = getEle(".reply-list-btn")
 
       for (var i = 0; i < subReplyBtnEle.length; i++) {
-        subReplyBtnEle[i].onclick(function(){
-  				if($(this).parent().parent().find(".replybox").length > 0){
-  					$(".replybox").remove();
+        subReplyBtnEle[i].addEventListener('click',function(){
+  				if(getEle(".replybox", [this.parentNode.parentNode]).length > 0){
+            getEle(".replybox").forEach(function (v, i) {
+              this.removeChild(v);
+            })
   				}else{
-  					$(".replybox").remove();
-  					replyClick($(this));
+            getEle(".replybox").forEach(function (v, i) {
+              this.removeChild(v);
+            })
+  					_this.replyClick(this);
   				}
-  			})
+  			}, false)
       }
 		}
 
@@ -362,22 +366,23 @@ class comment {
     var _this = this
     var domEle = parseDom("<div class='replybox'><textarea cols='80' rows='50' placeholder='来说几句吧......' class='mytextarea' ></textarea><span class='send'>发送</span></div>")
 		el.parentNode.parentNode.appendChild(domEle[0])
-    console.log(getEle(".send", [el.parentNode.parentNode])[0]);
 		getEle(".send", [el.parentNode.parentNode])[0].addEventListener('click',function(){
 			var content = this.previousSibling.value;
 			if(content != ""){
 				var parentEl = this.parentNode.parentNode.parentNode.parentNode;
-				var obj = new Object();
-				obj.replyName="匿名";
+				var obj = new Object(), toObj = new Object();
+				obj.nickname="匿名";
         obj.pid = el.getAttribute('data-id')
 				if(hasClass(el.parentNode.parentNode, "reply")){
-					obj.beReplyName = getEle('a:first', [el.parentNode.parentNode])[0].innerText;
+					toObj.nickname = getEle('a:first', [el.parentNode.parentNode])[0].innerText;
 				}else{
-					obj.beReplyName=getEle('h3', [parentEl])[0].innerText;
+					toObj.nickname = getEle('h3', [parentEl])[0].innerText;
 				}
 				obj.content=content;
-				obj.time = getNowDateFormat();
-				var replyString = _this.createReplyComment(obj);
+				obj.meta = {
+          createAt: getNowDateFormat()
+        };
+				var replyString = _this.createReplyComment(obj, toObj);
         var replyBoxEle = getEle(".replybox")[0]
 				replyBoxEle.parentNode.removeChild(replyBoxEle);
         var replyListEl = getEle(".reply-list", [parentEl])[0]
