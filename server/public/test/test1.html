@@ -10,15 +10,10 @@
 </head>
 
 <body>
-  <div class="commentAll">
-    <!--评论区域 begin-->
-    <div class="reviewArea clearfix">
-      <textarea class="content comment-input" placeholder="Please enter a comment&hellip;" onkeyup="keyUP(this)"></textarea>
-      <a href="javascript:;" class="plBtn">评论</a>
-    </div>
-    <!--评论区域 end-->
+  <div class="commentAll" id="commentWarrp">
+
     <!--回复区域 begin-->
-    <div class="comment-show">
+    <!-- <div class="comment-show">
       <div class="comment-show-con clearfix">
         <div class="comment-show-con-img pull-left"><img src="images/header-img-comment_03.png" alt=""></div>
         <div class="comment-show-con-list pull-left clearfix">
@@ -56,9 +51,27 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!--回复区域 end-->
   </div>
+  <script src="/article/util.js" charset="utf-8"></script>
+  <script src="/article/comment.js" charset="utf-8"></script>
+  <script src="/article/fly.min.js" charset="utf-8"></script>
+  <script src="/article/index.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    let commentAjax = new articleUitl()
+    let data =  {}
+    let commentCtr
+    commentAjax.getComment(function (data) {
+      commentCtr = new comment({
+        warrp: "#commentWarrp",
+        data: data.data
+      })
+      console.log(commentCtr);
+
+    })
+
+  </script>
 </body>
 
 </html>
