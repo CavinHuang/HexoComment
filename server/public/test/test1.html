@@ -74,8 +74,11 @@
           title: '测试文章',
         }
         commentData = extend(commentData, res)
+        console.log(11111111111111);
         commentAjax.addComment(commentData, function (res) {
-          console.log(res);
+          console.log(111111);
+          commentCtr.preppendItem(res.data)
+          return
         })
       })
     })

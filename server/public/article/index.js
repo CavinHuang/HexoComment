@@ -42,6 +42,7 @@ class articleUitl {
     fly.post(this.url + '/comment', data).then((res) => {
       callback && callback(res.data)
     }).catch(e => {
+      console.log('e', e);
       callback && callback(e)
     })
   }

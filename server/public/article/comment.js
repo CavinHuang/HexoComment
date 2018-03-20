@@ -24,6 +24,18 @@ class comment {
   }
 
   /**
+   * 追加元素到列表
+   * @return {[type]} [description]
+   */
+  preppendItem (item) {
+    console.log(item);
+    var htmlStr = this.createItem(item)
+    var itemEle = parseDom(htmlStr)[0]
+
+    this.listWarrp.insertBefore(itemEle, this.listWarrp.children[0]);
+  }
+
+  /**
    * 创建列表包裹元素
    * @return {[type]} [description]
    */
@@ -59,7 +71,6 @@ class comment {
       var _d = childs[i]
       subHtmlStr += this.createSubItem(_d, item)
     }
-
 
     var htmlStr = `<div class="comment-show-con clearfix">
         <div class="comment-show-con-img pull-left"><img src="images/header-img-comment_03.png" alt=""></div>
@@ -146,8 +157,11 @@ class comment {
     let replayData = {}
     for (var i = 0; i < btns.length; i++) {
       btns[i].addEventListener('click', function (e) {
+        console.log('============');
         replayData.content = this.previousElementSibling.value
         callback&&callback(replayData)
+        e.preventDefault();
+        e.cancelBubble = true
       }, false)
     }
   }
