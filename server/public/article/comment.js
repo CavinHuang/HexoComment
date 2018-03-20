@@ -21,6 +21,7 @@ class comment {
     this.warrp.appendChild(parseDom(this.createTextarea())[0])
 
     this.addCommentToList()
+    this.bindReply()
   }
 
   /**
@@ -33,6 +34,7 @@ class comment {
     var itemEle = parseDom(htmlStr)[0]
 
     this.listWarrp.insertBefore(itemEle, this.listWarrp.children[0]);
+    this.bindReply()
   }
 
   /**
@@ -123,7 +125,13 @@ class comment {
    * 创建回复时的输入框
    * @return {[type]} [description]
    */
-  createSubCommentInp (subItem) {
+  createSubCommentInp (str) {
+    var fhHtml = `<div class="hf-con pull-left">
+      <textarea class="content comment-input hf-input" placeholder="">${str}</textarea>
+      <a href="javascript:;" class="hf-pl">评论</a>
+    </div>`;
+
+    return fhHtml
 
   }
 
@@ -152,6 +160,11 @@ class comment {
     return htmlStr
   }
 
+  /**
+   * 执行提交
+   * @param  {Function} callback [description]
+   * @return {[type]}            [description]
+   */
   bindSubmit(callback){
     let btns = getEle('.plBtn', [this.warrp])
     let replayData = {}
@@ -162,6 +175,21 @@ class comment {
         callback&&callback(replayData)
         e.preventDefault();
         e.cancelBubble = true
+      }, false)
+    }
+  }
+
+  bindReply(){
+    let replyBtns = getEle('.pl-hf', [this.listWarrp])
+    let data = {}
+    let _this = this
+    for (var i = 0; i < replyBtns.length; i++) {
+      replyBtns[i].addEventListener('click', function() {
+        let nicknameEle = getEle('.comment-size-name', [this.parentNode.parentNode.previousElementSibling])[0]
+        data.nickname = nicknameEle.innerText
+        var fhN = '回复@'+data.nickname;
+        let textareaHtml = parseDom(_this.createSubCommentInp(fhN))[0]
+        this.parentNode.parentNode.appendChild(textareaHtml)
       }, false)
     }
   }
