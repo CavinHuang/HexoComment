@@ -141,4 +141,15 @@ class comment {
     return htmlStr
   }
 
+  bindSubmit(callback){
+    let btns = getEle('.plBtn', [this.warrp])
+    let replayData = {}
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function (e) {
+        replayData.content = this.previousElementSibling.value
+        callback&&callback(replayData)
+      }, false)
+    }
+  }
+
 }
