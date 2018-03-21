@@ -81,6 +81,19 @@
           return
         })
       })
+
+      commentCtr.bindSubSubmit(function (data) {
+        let commentData = {
+          url: window.location.href,
+          title: '测试文章',
+        }
+        commentData = extend(commentData, data)
+        commentAjax.addComment(commentData, function (res) {
+          console.log(res);
+          //commentCtr.preppendItem(res.data)
+          return
+        })
+      })
     })
 
   </script>

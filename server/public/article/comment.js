@@ -84,7 +84,7 @@ class comment {
             <div class="date-dz">
                 <span class="date-dz-left pull-left comment-time">${getNowDateFormat(new Date(item.meta.createAt))}</span>
                 <div class="date-dz-right pull-right comment-pl-block">
-                    <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复(${item.replyCount})</a>
+                    <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left" data-id="${item.id}">回复(${item.replyCount})</a>
                     <span class="pull-left date-dz-line">|</span>
                     <a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞 (<i class="z-num">${item.like}</i>)</a>
                 </div>
@@ -125,10 +125,10 @@ class comment {
    * 创建回复时的输入框
    * @return {[type]} [description]
    */
-  createSubCommentInp (str) {
+  createSubCommentInp (str, pid) {
     var fhHtml = `<div class="hf-con pull-left">
       <textarea class="content comment-input hf-input" placeholder="">${str}</textarea>
-      <a href="javascript:;" class="hf-pl">评论</a>
+      <a href="javascript:;" class="hf-pl" data-pid="${pid}">评论</a>
     </div>`;
 
     return fhHtml
@@ -150,7 +150,7 @@ class comment {
     <div class="date-dz">
       <span class="date-dz-left pull-left comment-time">${getNowDateFormat(new Date(subItem.meta.createAt))}</span>
       <div class="date-dz-right pull-right comment-pl-block">
-        <a href="javascript:;" class="date-dz-pl pl-hf pull-left hf-con-block">回复(${subItem.replyCount})</a>
+        <a href="javascript:;" class="date-dz-pl pl-hf pull-left hf-con-block" data-id="${subItem.id}">回复(${subItem.replyCount})</a>
         <span class="pull-left date-dz-line">|</span>
         <a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞 (<i class="z-num">${subItem.like}</i>)</a>
       </div>
@@ -179,6 +179,37 @@ class comment {
     }
   }
 
+  /**
+   * 回复提交绑定
+   * @return {[type]} [description]
+   */
+  bindSubSubmit(callback){
+    // let btns = getEle('.hf-pl', [this.listWarrp])
+    let data = {}
+    /*for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function(e){
+        data.content = this.previousElementSibling.value
+        data.pid = this.getAttribute('data-pid')
+        callback&&callback(data)
+      }, false)
+    }*/
+
+    this.listWarrp.addEventListener('click', function (e) {
+      var target = e.target
+      console.log(target);
+      if(hasClass(target, 'hf-pl')) {
+        console.log(this.previousElementSibling);
+        data.content = target.previousElementSibling.value
+        data.pid = target.getAttribute('data-pid')
+        callback&&callback(data)
+      }
+    }, false)
+
+  }
+  /**
+   * 绑定回复按钮
+   * @return {[type]} [description]
+   */
   bindReply(){
     let replyBtns = getEle('.pl-hf', [this.listWarrp])
     let data = {}
@@ -189,7 +220,8 @@ class comment {
           let nicknameEle = getEle('.comment-size-name', [this.parentNode.parentNode.previousElementSibling])[0]
           data.nickname = nicknameEle.innerText
           var fhN = '回复@'+data.nickname;
-          let textareaHtml = parseDom(_this.createSubCommentInp(fhN))[0]
+          var pid = this.getAttribute('data-id')
+          let textareaHtml = parseDom(_this.createSubCommentInp(fhN, pid))[0]
           this.parentNode.parentNode.appendChild(textareaHtml)
           removeClass(this, 'hf-con-block')
         }else{
