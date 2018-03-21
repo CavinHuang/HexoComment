@@ -185,11 +185,18 @@ class comment {
     let _this = this
     for (var i = 0; i < replyBtns.length; i++) {
       replyBtns[i].addEventListener('click', function() {
-        let nicknameEle = getEle('.comment-size-name', [this.parentNode.parentNode.previousElementSibling])[0]
-        data.nickname = nicknameEle.innerText
-        var fhN = '回复@'+data.nickname;
-        let textareaHtml = parseDom(_this.createSubCommentInp(fhN))[0]
-        this.parentNode.parentNode.appendChild(textareaHtml)
+        if(hasClass(this, 'hf-con-block')) {
+          let nicknameEle = getEle('.comment-size-name', [this.parentNode.parentNode.previousElementSibling])[0]
+          data.nickname = nicknameEle.innerText
+          var fhN = '回复@'+data.nickname;
+          let textareaHtml = parseDom(_this.createSubCommentInp(fhN))[0]
+          this.parentNode.parentNode.appendChild(textareaHtml)
+          removeClass(this, 'hf-con-block')
+        }else{
+          this.parentNode.parentNode.removeChild(this.parentNode.nextElementSibling)
+          addClass(this, 'hf-con-block')
+        }
+
       }, false)
     }
   }
