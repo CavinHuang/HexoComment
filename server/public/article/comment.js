@@ -10,7 +10,6 @@ class comment {
     this.warrp = this.options.warrp instanceof Object ? this.options.warrp : getEle(this.options.warrp)[0]
     this.commentList = this.options.data
     this.listWarrp = this.createListWarrp()
-
     this.init();
   }
   /**
@@ -140,6 +139,37 @@ class comment {
    * @return {[type]} [description]
    */
   createSubItem (subItem, item) {
+
+    var subHtmlStr = this.createSubItemChild(subItem, item)
+    var html = subHtmlStr
+    return html
+  }
+
+  /**
+   * 递归创建
+   * @param  {[type]} item [description]
+   * @return {[type]}      [description]
+   */
+  createSubItemChild(subItem, item){
+    let subHtmlStr =''
+    let childs = item.child || []
+    for (var i = 0; i < childs.length; i++) {
+      var _d = childs[i]
+      subHtmlStr += this.createSubItemHtmlStr(_d, subItem)
+      if(_d.child.length > 0) {
+        subHtmlStr += this.createSubItemChild(_d, subItem)
+      }
+    }
+    return subHtmlStr
+  }
+
+  /**
+   * 创建回复Itme html string
+   * @param  {[type]} subItem [description]
+   * @param  {[type]} item    [description]
+   * @return {[type]}         [description]
+   */
+  createSubItemHtmlStr (subItem, item) {
     var htmlStr = `<div class="all-pl-con">
     <div class="pl-text hfpl-text clearfix">
       <a href="#" class="comment-size-name">${subItem.nickname} : </a>
@@ -156,7 +186,6 @@ class comment {
       </div>
       </div>
     </div>`
-
     return htmlStr
   }
 
