@@ -54,7 +54,13 @@ class webComment {
 
     let result = await helper.create(commentData)
 
+    if(data['pid'] && data['pid'] != '' && data['pid'] != 0) {
+      let updateRes = await helper.update({id: data['pid']}, {$inc: {replyCount: 1}})
+      console.log(updateRes);
+    }
+
     if (result) {
+
       ctx.body = ajax(2000, '评论成功', result)
     } else {
       ctx.body = ajax(4000, '评论失败')

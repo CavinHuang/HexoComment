@@ -23,9 +23,7 @@ counterSchema = new Schema({
 })
 
 counterSchema.statics.incrementCounter = function (schemaName, callback) {
-  return this.collection.findAndModify({
-    _id: schemaName
-  }, [], {
+  return this.collection.findAndModify({ _id: schemaName}, [], {
     $inc: {
       count: 1
     }
