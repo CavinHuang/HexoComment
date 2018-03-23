@@ -72,6 +72,7 @@ class comment {
       var _d = childs[i]
       subHtmlStr += this.createSubItem(_d, item)
     }
+    //subHtmlStr += this.createSubItem(item.child, item)
 
     var htmlStr = `<div class="comment-show-con clearfix">
         <div class="comment-show-con-img pull-left"><img src="images/header-img-comment_03.png" alt=""></div>
@@ -139,7 +140,6 @@ class comment {
    * @return {[type]} [description]
    */
   createSubItem (subItem, item) {
-
     var subHtmlStr = this.createSubItemChild(subItem, item)
     var html = subHtmlStr
     return html
@@ -152,7 +152,8 @@ class comment {
    */
   createSubItemChild(subItem, item){
     let subHtmlStr =''
-    let childs = item.child || []
+    let childs = subItem.child || []
+    subHtmlStr += this.createSubItemHtmlStr(subItem, item)
     for (var i = 0; i < childs.length; i++) {
       var _d = childs[i]
       subHtmlStr += this.createSubItemHtmlStr(_d, subItem)
