@@ -150,15 +150,15 @@ class comment {
    * @param  {[type]} item [description]
    * @return {[type]}      [description]
    */
-  createSubItemChild(subItem, item){
+  createSubItemChild(subItem, item, isSub = false){
     let subHtmlStr =''
     let childs = subItem.child || []
-    subHtmlStr += this.createSubItemHtmlStr(subItem, item)
+    if(!isSub) subHtmlStr += this.createSubItemHtmlStr(subItem, item)
     for (var i = 0; i < childs.length; i++) {
       var _d = childs[i]
       subHtmlStr += this.createSubItemHtmlStr(_d, subItem)
       if(_d.child.length > 0) {
-        subHtmlStr += this.createSubItemChild(_d, subItem)
+        subHtmlStr += this.createSubItemChild(_d, subItem, true)
       }
     }
     return subHtmlStr
