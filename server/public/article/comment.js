@@ -262,5 +262,4 @@ class comment {
       }, false)
     }
   }
-
 }
