@@ -75,8 +75,7 @@ class webComment {
   async fetch (ctx) {
     let url = ctx.query.url
 
-    let result = await helper.findByWhere({url: decodeURIComponent(url)}, null, false, {id: -1})
-    console.log(result);
+    let result = await helper.findByWhere({url: decodeURIComponent(url)}, null, false, {"sort": [{'id': -1}]})
     if(result) {
       let data = setCommentTree(result, 0, 1)
       ctx.body = ajax(2000, '查询成功', data)

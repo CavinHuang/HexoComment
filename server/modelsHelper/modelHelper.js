@@ -10,7 +10,7 @@ class modelHelper {
    * @param  {Boolean} [isOne=false] [description]
    * @return {[type]}                [description]
    */
-  findByWhere (where, field, isOne = false, populate = false, sort = false) {
+  findByWhere (where, field, isOne = false, condition = {}) {
     if (isOne) {
       return new Promise((resolve, reject) => {
         this.model.findOne(where, field, (err, user) => {
@@ -19,16 +19,17 @@ class modelHelper {
         })
       })
     } else {
-      let query = this.model.find({})
-
-      if(sort) {
-        query.sort(sort)
-      }
-      // if (populate) {
-      //   query = query.aggregate(populate)
+      // let query = this.model.find({})
+      //
+      // if(sort) {
+      //   query.sort(sort)
       // }
+      // console.log(query);
+      // // if (populate) {
+      // //   query = query.aggregate(populate)
+      // // }
       return new Promise((resolve, reject) => {
-        query.exec((err, data) => {
+        this.model.find({}, field, condition, (err, data) => {
           if (err) reject(err)
           else resolve(data)
         })
