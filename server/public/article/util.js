@@ -250,3 +250,13 @@ function removeClass(obj, cls){
   removed = removed.replace(/(^\s+)|(\s+$)/g, '');//去掉首尾空格. ex) 'bcd ' -> 'bcd'
   obj.className = removed;//替换原来的 class.
 }
+
+//插入元素方法
+function insertAfter( newElement, targetElement ){
+     var parent = targetElement.parentNode;
+     if( parent.lastChild == targetElement ){
+    parent.appendChild( newElement, targetElement );
+ }else{
+    parent.insertBefore( newElement, targetElement.nextSibling );
+ }
+}

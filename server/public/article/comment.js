@@ -223,7 +223,7 @@ class comment {
         callback&&callback(data)
       }, false)
     }*/
-
+    let _this = this
     this.listWarrp.addEventListener('click', function (e) {
       var target = e.target
       console.log(target);
@@ -231,9 +231,24 @@ class comment {
         console.log(this.previousElementSibling);
         data.content = target.previousElementSibling.value
         data.pid = target.getAttribute('data-pid')
-        callback&&callback(data)
+        callback&&callback(data, target)
+
       }
     }, false)
+  }
+
+  // 回调
+  subSubmitCallback(subItem, target){
+    console.log(subItem);
+    let toNickname = getEle('.comment-size-name', [target.parentNode.parentNode.previousElementSibling])[0].innerText
+    let htmlStr = this.createSubItemHtmlStr(subItem, {'nickname': toNickname})
+
+    let htmlObj = parseDom(htmlStr)[0]
+
+    let beforNode = target.parentNode.parentNode.parentNode.parentNode
+
+    insertAfter(htmlObj, beforNode)
+    target.parentNode.parentNode.removeChild(target.parentNode)
 
   }
   /**

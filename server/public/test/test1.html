@@ -82,7 +82,7 @@
         })
       })
 
-      commentCtr.bindSubSubmit(function (data) {
+      commentCtr.bindSubSubmit(function (data, target) {
         let commentData = {
           url: window.location.href,
           title: '测试文章',
@@ -90,6 +90,7 @@
         commentData = extend(commentData, data)
         commentAjax.addComment(commentData, function (res) {
           console.log(res);
+          commentCtr.subSubmitCallback(res.data, target)
           //commentCtr.preppendItem(res.data)
           return
         })
