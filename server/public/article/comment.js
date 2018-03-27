@@ -245,7 +245,8 @@ class comment {
 
     let htmlObj = parseDom(htmlStr)[0]
 
-    let beforNode = target.parentNode.parentNode.parentNode.parentNode
+    let beforNode = target.parentNode.parentNode.parentNode
+    console.log(beforNode);
 
     insertAfter(htmlObj, beforNode)
     target.parentNode.parentNode.removeChild(target.parentNode)
