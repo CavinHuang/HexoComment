@@ -17,7 +17,7 @@ class comment {
 	 */
 	init() {
 		this.warrp.appendChild( parseDom( this.createTextarea() )[ 0 ] )
-
+		console.log( 1 );
 		this.addCommentToList()
 		this.bindReply()
 	}
@@ -27,7 +27,6 @@ class comment {
 	 * @return {[type]} [description]
 	 */
 	preppendItem( item ) {
-		console.log( item );
 		var htmlStr = this.createItem( item )
 		var itemEle = parseDom( htmlStr )[ 0 ]
 
@@ -217,6 +216,8 @@ class comment {
 				callback && callback( data, target )
 			} else if ( hasClass( target, 'plBtn' ) ) { // 二级及以后层级的提交按钮
 
+			} else if ( hasClass( target, 'pl-hf' ) ) {
+
 			}
 		}, false )
 	}
@@ -228,6 +229,7 @@ class comment {
 		let htmlObj = parseDom( htmlStr )[ 0 ]
 		let beforNode = target.parentNode.parentNode.parentNode
 		insertAfter( htmlObj, beforNode )
+		this.bindReply()
 		target.parentNode.parentNode.removeChild( target.parentNode )
 	}
 	/**

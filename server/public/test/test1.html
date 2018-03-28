@@ -58,19 +58,27 @@
   <script src="/article/comment.js" charset="utf-8"></script>
   <script src="/article/fly.min.js" charset="utf-8"></script>
   <script src="/article/index.js" charset="utf-8"></script>
-  <script type="text/javascript">
-  </script>
+
   <script type="text/javascript">
     let commentAjax = new articleUitl()
     let data = {}
     let commentCtr
+
+    function _init()
+    {
+      commentAjax.getComment().then(data =>
+      {
+        commentCtr = new comment(
+        {
+          warrp: "#commentWarrp",
+          data: data.data
+        })
+      })
+    }
+    _init();
     commentAjax.getComment(function(data)
     {
-      commentCtr = new comment(
-      {
-        warrp: "#commentWarrp",
-        data: data.data
-      })
+
       console.log(commentCtr);
       commentCtr.bindSubmit(function(res)
       {
