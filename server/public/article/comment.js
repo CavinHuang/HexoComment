@@ -248,6 +248,7 @@ class comment {
 		insertAfter( htmlObj, beforNode )
 		target.parentNode.parentNode.removeChild( target.parentNode )
 	}
+
 	/**
 	 * 绑定回复按钮
 	 * @return {[type]} [description]
