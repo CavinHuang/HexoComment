@@ -68,50 +68,17 @@
     {
       commentAjax.getComment().then(data =>
       {
+        console.log(data.data);
         commentCtr = new comment(
         {
           warrp: "#commentWarrp",
-          data: data.data
+          data: data.data,
+          ajaxCtrl: commentAjax
         })
+        console.log('commentCtr', commentCtr);
       })
     }
     _init();
-    commentAjax.getComment(function(data)
-    {
-
-      console.log(commentCtr);
-      commentCtr.bindSubmit(function(res)
-      {
-        let commentData = {
-          url: window.location.href,
-          title: '测试文章',
-        }
-        commentData = extend(commentData, res)
-        console.log(11111111111111);
-        commentAjax.addComment(commentData, function(res)
-        {
-          console.log(111111);
-          commentCtr.preppendItem(res.data)
-          return
-        })
-      })
-
-      commentCtr.bindSubSubmit(function(data, target)
-      {
-        let commentData = {
-          url: window.location.href,
-          title: '测试文章',
-        }
-        commentData = extend(commentData, data)
-        commentAjax.addComment(commentData, function(res)
-        {
-          console.log(res);
-          commentCtr.subSubmitCallback(res.data, target)
-          //commentCtr.preppendItem(res.data)
-          return
-        })
-      })
-    })
   </script>
 </body>
 

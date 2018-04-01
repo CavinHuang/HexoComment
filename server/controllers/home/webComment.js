@@ -16,7 +16,7 @@ const helper = new modelHelper( WebComment )
 let setCommentTree = ( data, pid, level ) => {
 	let result = []
 	console.log( data );
-	let _data = data //JSON.parse( JSON.stringify( data ) )
+	let _data = JSON.parse( JSON.stringify( data ) )
 	for ( var i = 0; i < _data.length; i++ ) {
 		let _d = _data[ i ]
 		let tmp = {}
