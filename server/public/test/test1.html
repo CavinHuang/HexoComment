@@ -58,37 +58,53 @@
   <script src="/article/comment.js" charset="utf-8"></script>
   <script src="/article/fly.min.js" charset="utf-8"></script>
   <script src="/article/index.js" charset="utf-8"></script>
+
   <script type="text/javascript">
     let commentAjax = new articleUitl()
-    let data =  {}
+    let data = {}
     let commentCtr
-    commentAjax.getComment(function (data) {
-      commentCtr = new comment({
-        warrp: "#commentWarrp",
-        data: data.data
+
+    function _init()
+    {
+      commentAjax.getComment().then(data =>
+      {
+        commentCtr = new comment(
+        {
+          warrp: "#commentWarrp",
+          data: data.data
+        })
       })
+    }
+    _init();
+    commentAjax.getComment(function(data)
+    {
+
       console.log(commentCtr);
-      commentCtr.bindSubmit(function (res) {
+      commentCtr.bindSubmit(function(res)
+      {
         let commentData = {
           url: window.location.href,
           title: '测试文章',
         }
         commentData = extend(commentData, res)
         console.log(11111111111111);
-        commentAjax.addComment(commentData, function (res) {
+        commentAjax.addComment(commentData, function(res)
+        {
           console.log(111111);
           commentCtr.preppendItem(res.data)
           return
         })
       })
 
-      commentCtr.bindSubSubmit(function (data, target) {
+      commentCtr.bindSubSubmit(function(data, target)
+      {
         let commentData = {
           url: window.location.href,
           title: '测试文章',
         }
         commentData = extend(commentData, data)
-        commentAjax.addComment(commentData, function (res) {
+        commentAjax.addComment(commentData, function(res)
+        {
           console.log(res);
           commentCtr.subSubmitCallback(res.data, target)
           //commentCtr.preppendItem(res.data)
@@ -96,7 +112,6 @@
         })
       })
     })
-
   </script>
 </body>
 
