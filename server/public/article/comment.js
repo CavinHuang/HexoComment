@@ -91,7 +91,9 @@ class comment {
             </div>
         </div>
     </div>`
+
 		return htmlStr
+
 	}
 
 	/**
