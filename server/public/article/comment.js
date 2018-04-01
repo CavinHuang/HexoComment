@@ -27,7 +27,6 @@ class comment {
 	 * @return {[type]} [description]
 	 */
 	preppendItem( item ) {
-		console.log( item );
 		var htmlStr = this.createItem( item )
 		var itemEle = parseDom( htmlStr )[ 0 ]
 
