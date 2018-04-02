@@ -232,6 +232,21 @@ class comment {
 						_this.subSubmitCallback( res.data, target )
 					}
 				} )
+			} else if ( hasClass( target, 'pl-hf' ) ) {
+				let data = {}
+				console.log( target );
+				if ( hasClass( target, 'hf-con-block' ) ) {
+					let nicknameEle = getEle( '.comment-size-name', [ target.parentNode.parentNode.previousElementSibling ] )[ 0 ]
+					data.nickname = nicknameEle.innerText
+					var fhN = '回复@' + data.nickname;
+					var pid = target.getAttribute( 'data-id' )
+					let textareaHtml = parseDom( _this.createSubCommentInp( fhN, pid ) )[ 0 ]
+					target.parentNode.parentNode.appendChild( textareaHtml )
+					removeClass( target, 'hf-con-block' )
+				} else {
+					target.parentNode.parentNode.removeChild( target.parentNode.nextElementSibling )
+					addClass( target, 'hf-con-block' )
+				}
 			}
 		}, false )
 	}
