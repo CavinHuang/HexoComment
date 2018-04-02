@@ -234,7 +234,6 @@ class comment {
 				} )
 			} else if ( hasClass( target, 'pl-hf' ) ) {
 				let data = {}
-				console.log( target );
 				if ( hasClass( target, 'hf-con-block' ) ) {
 					let nicknameEle = getEle( '.comment-size-name', [ target.parentNode.parentNode.previousElementSibling ] )[ 0 ]
 					data.nickname = nicknameEle.innerText
