@@ -2,6 +2,11 @@
  * 评论组件
  */
 class comment {
+	/**
+	 * 构造函数
+	 * @param  {[type]} options [description]
+	 * @return {[type]}         [description]
+	 */
 	constructor( options ) {
 		var defaults = {}
 		this.options = extend( {}, defaults, options )
@@ -9,6 +14,7 @@ class comment {
 		this.warrp = this.options.warrp instanceof Object ? this.options.warrp : getEle( this.options.warrp )[ 0 ]
 		this.commentList = this.options.data
 		this.listWarrp = this.createListWarrp()
+		this.ajaxCtrl = this.options.ajaxCtrl
 		this.init();
 	}
 	/**
@@ -19,6 +25,7 @@ class comment {
 		this.warrp.appendChild( parseDom( this.createTextarea() )[ 0 ] )
 		this.addCommentToList()
 		this.bindReply()
+		this.bindSubSubmit()
 	}
 
 	/**
@@ -91,9 +98,7 @@ class comment {
             </div>
         </div>
     </div>`
-
 		return htmlStr
-
 	}
 
 	/**
@@ -212,31 +217,33 @@ class comment {
 	 * 回复提交绑定
 	 * @return {[type]} [description]
 	 */
-	bindSubSubmit( callback ) {
+	bindSubSubmit() {
 		let data = {}
 		let _this = this
 		this.listWarrp.addEventListener( 'click', function ( e ) {
 			var target = e.target
-			console.log( target );
 			if ( hasClass( target, 'hf-pl' ) ) {
-				console.log( this.previousElementSibling );
 				data.content = target.previousElementSibling.value
 				data.pid = target.getAttribute( 'data-pid' )
-				callback && callback( data, target )
+				data.url = window.location.href
+				// callback  提交当前内容到api
+				_this.ajaxCtrl.addComment( data ).then( res => {
+					if ( res.code == 2000 ) {
+						_this.subSubmitCallback( res.data, target )
+					}
+				} )
 			}
 		}, false )
 	}
 
 	// 回调
 	subSubmitCallback( subItem, target ) {
-		console.log( subItem );
 		let toNickname = getEle( '.comment-size-name', [ target.parentNode.parentNode.previousElementSibling ] )[ 0 ].innerText
 		let htmlStr = this.createSubItemHtmlStr( subItem, { 'nickname': toNickname } )
 
 		let htmlObj = parseDom( htmlStr )[ 0 ]
 
 		let beforNode = target.parentNode.parentNode.parentNode
-		console.log( beforNode );
 		insertAfter( htmlObj, beforNode )
 		target.parentNode.parentNode.removeChild( target.parentNode )
 	}

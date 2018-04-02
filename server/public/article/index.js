@@ -48,7 +48,7 @@ class articleUitl {
 	/**
 	 * 增加评论
 	 */
-	addComment( data, callback ) {
+	addComment( data ) {
 		return this.fly.post( '/comment', data )
 	}
 
