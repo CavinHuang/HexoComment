@@ -88,7 +88,7 @@ class comment {
             <div class="date-dz">
                 <span class="date-dz-left pull-left comment-time">${getNowDateFormat(new Date(item.meta.createAt))}</span>
                 <div class="date-dz-right pull-right comment-pl-block">
-                    <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left" data-id="${item.id}">回复(${item.replyCount})</a>
+                    <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left" data-replay="true" data-id="${item.id}">回复(${item.replyCount})</a>
                     <span class="pull-left date-dz-line">|</span>
                     <a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞 (<i class="z-num">${item.like}</i>)</a>
                 </div>
@@ -185,7 +185,7 @@ class comment {
     <div class="date-dz">
       <span class="date-dz-left pull-left comment-time">${getNowDateFormat(new Date(subItem.meta.createAt))}</span>
       <div class="date-dz-right pull-right comment-pl-block">
-        <a href="javascript:;" class="date-dz-pl pl-hf pull-left hf-con-block" data-id="${subItem.id}">回复(${subItem.replyCount})</a>
+        <a href="javascript:;" class="date-dz-pl pl-hf pull-left hf-con-block" data-replay="true" data-id="${subItem.id}">回复(${subItem.replyCount})</a>
         <span class="pull-left date-dz-line">|</span>
         <a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞 (<i class="z-num">${subItem.like}</i>)</a>
       </div>
@@ -222,6 +222,9 @@ class comment {
 		let _this = this
 		this.listWarrp.addEventListener( 'click', function ( e ) {
 			var target = e.target
+			console.log( target );
+			console.log( e );
+			console.log( hasClass( target, 'hf-pl' ) );
 			if ( hasClass( target, 'hf-pl' ) ) {
 				data.content = target.previousElementSibling.value
 				data.pid = target.getAttribute( 'data-pid' )
@@ -232,7 +235,10 @@ class comment {
 						_this.subSubmitCallback( res.data, target )
 					}
 				} )
-			} else if ( hasClass( target, 'pl-hf' ) ) {
+				e.cancelBubble = true;
+				e.preventDefault()
+				return false
+			} else if ( hasClass( target, 'pl-hf' ) && target.getAttribute( 'data-replay' ) ) {
 				let data = {}
 				if ( hasClass( target, 'hf-con-block' ) ) {
 					let nicknameEle = getEle( '.comment-size-name', [ target.parentNode.parentNode.previousElementSibling ] )[ 0 ]
@@ -242,10 +248,17 @@ class comment {
 					let textareaHtml = parseDom( _this.createSubCommentInp( fhN, pid ) )[ 0 ]
 					target.parentNode.parentNode.appendChild( textareaHtml )
 					removeClass( target, 'hf-con-block' )
+					e.cancelBubble = true;
+					e.preventDefault()
+					return false
 				} else {
 					target.parentNode.parentNode.removeChild( target.parentNode.nextElementSibling )
 					addClass( target, 'hf-con-block' )
+					e.cancelBubble = true;
+					e.preventDefault()
+					return false
 				}
+				return false;
 			}
 		}, false )
 	}
