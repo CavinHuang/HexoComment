@@ -10,6 +10,8 @@
 2. 直接在需要的地方引入，传入相应的参数即可。
 
 # 更新日志
+### 2018/4/3
+该项目暂时封存，目前没有更多精力维护
 ### 2018/3/3
 1. 完成website model和controller
 2. 完成website type model和controller
